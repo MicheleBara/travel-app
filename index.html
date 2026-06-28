@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>I Miei Viaggi</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="I Miei Viaggi">
+    <meta name="theme-color" content="#2c7be5">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+
+    <!-- INTESTAZIONE -->
+    <header>
+        <h1>✈️ I Miei Viaggi</h1>
+        <nav>
+    <button onclick="mostraVista('vista-viaggi')" id="nav-viaggi" class="nav-btn attivo">
+        🌍 I Miei Viaggi
+    </button>
+    <button onclick="mostraVista('vista-inserimento')" id="nav-inserimento" class="nav-btn">
+        ➕ Inserisci Dati
+    </button>
+    <button onclick="mostraVista('vista-backup')" id="nav-backup" class="nav-btn">
+        💾 Backup
+    </button>
+</nav>
+    </header>
+
+    <!-- ======================== -->
+    <!-- VISTA 1: I MIEI VIAGGI  -->
+    <!-- ======================== -->
+    <div id="vista-viaggi" class="vista">
+        <div class="layout-sidebar">
+
+            <!-- Selettore viaggio per mobile (visibile solo su schermi piccoli) -->
+        <div id="selettore-mobile">
+            <select id="select-viaggio-mobile" onchange="selezionaViaggioDaMenu()">
+                <option value="">✈️ Seleziona un viaggio...</option>
+            </select>
+        </div>
+
+        <aside id="sidebar-viaggi">
+            <h3>📋 I tuoi viaggi</h3>
+            <div id="sidebar-lista"></div>
+        </aside>
+
+            <!-- Area principale destra -->
+            <main id="area-principale">
+
+                <!-- Schermata iniziale (nessun viaggio selezionato) -->
+                <div id="schermata-benvenuto">
+                    <div class="benvenuto-box">
+                        <div class="benvenuto-icona">✈️</div>
+                        <h2>Benvenuto!</h2>
+                        <p>Seleziona un viaggio dalla lista a sinistra<br>oppure creane uno nuovo nella sezione<br><strong>Inserisci Dati</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Dettaglio viaggio (appare quando si seleziona un viaggio) -->
+                <div id="dettaglio-viaggio" style="display:none;">
+
+                    <!-- Riepilogo -->
+                    <div class="dettaglio-header">
+                        <h2 id="dettaglio-titolo"></h2>
+                        <div id="dettaglio-riepilogo"></div>
+                    </div>
+
+                    <!-- Schede interne -->
+                    <div class="schede-nav">
+                        <button onclick="mostraScheda('scheda-trasporti')" class="scheda-btn attivo" id="btn-scheda-trasporti">🚂 Trasporti</button>
+                        <button onclick="mostraScheda('scheda-alloggi')" class="scheda-btn" id="btn-scheda-alloggi">🏨 Alloggi</button>
+                        <button onclick="mostraScheda('scheda-interessi')" class="scheda-btn" id="btn-scheda-interessi">📍 Interessi</button>
+                        <button onclick="mostraScheda('scheda-note')" class="scheda-btn" id="btn-scheda-note">📝 Note</button>
+                        <button onclick="mostraScheda('scheda-mappa')" class="scheda-btn" id="btn-scheda-mappa">🗺️ Mappa</button>
+                        <button onclick="mostraScheda('scheda-spese')" class="scheda-btn" id="btn-scheda-spese">💰 Spese</button>
+                    </div>
+
+                    <div id="scheda-trasporti" class="scheda"></div>
+                    <div id="scheda-alloggi" class="scheda" style="display:none;"></div>
+                    <div id="scheda-interessi" class="scheda" style="display:none;">
+                        <div id="filtro-citta-contenitore" style="display:none;">
+                            <div class="filtro-citta-bar">
+                                <span class="filtro-label">🏙️ Filtra per città:</span>
+                                <div id="filtro-citta-bottoni"></div>
+                            </div>
+                        </div>
+                        <div id="scheda-interessi-lista"></div>
+                    </div>
+                    <div id="scheda-note" class="scheda" style="display:none;"></div>
+                    <div id="scheda-spese" class="scheda" style="display:none;"></div>
+                    <div id="scheda-mappa" class="scheda" style="display:none;">
+                        <div id="mappa-contenitore">
+                            <div id="mappa"></div>
+                            <div id="mappa-legenda"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- ============================ -->
+    <!-- VISTA 2: INSERISCI DATI     -->
+    <!-- ============================ -->
+    <div id="vista-inserimento" class="vista" style="display:none;">
+        <div class="inserimento-contenuto">
+
+            <!-- Navigazione sezioni inserimento -->
+            <div class="inserimento-nav">
+                <button onclick="mostraSezione('viaggi')" class="ins-btn attivo" id="ins-viaggi">🌍 Viaggi</button>
+                <button onclick="mostraSezione('trasporti')" class="ins-btn" id="ins-trasporti">🚂 Trasporti</button>
+                <button onclick="mostraSezione('alloggi')" class="ins-btn" id="ins-alloggi">🏨 Alloggi</button>
+                <button onclick="mostraSezione('interessi')" class="ins-btn" id="ins-interessi">📍 Interessi</button>
+                <button onclick="mostraSezione('note')" class="ins-btn" id="ins-note">📝 Note</button>
+            </div>
+
+            <!-- Sezione Viaggi -->
+            <section id="viaggi">
+                <h2>🌍 Aggiungi un Viaggio</h2>
+                <div class="form-card">
+                    <label>Destinazione</label>
+                    <input type="text" id="viaggio-destinazione" placeholder="Es. Parigi, Tokyo...">
+                    <label>Data di partenza</label>
+                    <input type="date" id="viaggio-partenza">
+                    <label>Data di ritorno</label>
+                    <input type="date" id="viaggio-ritorno">
+                    <label>Note rapide</label>
+                    <input type="text" id="viaggio-note" placeholder="Es. Viaggio di lavoro, vacanza...">
+                    <button class="btn-aggiungi" onclick="aggiungiViaggio()">+ Aggiungi Viaggio</button>
+                </div>
+                <div id="lista-viaggi"></div>
+            </section>
+
+            <!-- Sezione Trasporti -->
+            <section id="trasporti" style="display:none;">
+                <h2>🚂 Aggiungi un Trasporto</h2>
+                <div class="form-card">
+                    <label>Viaggio di riferimento</label>
+                    <select id="trasporto-viaggio">
+                        <option value="">-- Seleziona un viaggio --</option>
+                    </select>
+                    <label>Mezzo di trasporto</label>
+                    <select id="trasporto-mezzo">
+                        <option value="aereo">✈️ Aereo</option>
+                        <option value="treno">🚂 Treno</option>
+                        <option value="auto">🚗 Auto</option>
+                        <option value="autobus">🚌 Autobus</option>
+                        <option value="nave">🚢 Nave</option>
+                        <option value="altro">🔹 Altro</option>
+                    </select>
+                    <label>Partenza da</label>
+                    <input type="text" id="trasporto-da" placeholder="Es. Milano Centrale...">
+                    <label>Arrivo a</label>
+                    <input type="text" id="trasporto-a" placeholder="Es. Parigi CDG...">
+                    <label>Data e ora di partenza</label>
+                    <input type="datetime-local" id="trasporto-data-partenza">
+                    <label>Data e ora di arrivo</label>
+                    <input type="datetime-local" id="trasporto-data-arrivo">
+                    <label>Numero prenotazione / volo / treno</label>
+                    <input type="text" id="trasporto-riferimento" placeholder="Es. FR1234...">
+                    <label>Prezzo (€)</label>
+                    <input type="number" id="trasporto-prezzo" placeholder="Es. 120.50" min="0" step="0.01">
+                    <label>Allegato (PDF carta d'imbarco, prenotazione...)</label>
+                    <div class="allegato-upload" id="trasporto-allegato-box">
+                        <input type="file" id="trasporto-allegato" accept=".pdf,image/*" style="display:none;"
+                            onchange="anteprimaAllegato('trasporto')">
+                        <label for="trasporto-allegato" class="btn-allegato">
+                            📎 Seleziona file
+                        </label>
+                        <span id="trasporto-allegato-nome" class="allegato-nome"></span>
+                        <button id="trasporto-allegato-rimuovi" class="btn-rimuovi-allegato"
+                            style="display:none;" onclick="rimuoviAllegato('trasporto')">✕</button>
+                    </div>
+                    <button class="btn-aggiungi" onclick="aggiungiTrasporto()">+ Aggiungi Trasporto</button>
+                </div>
+                <div id="lista-trasporti"></div>
+            </section>
+
+            <!-- Sezione Alloggi -->
+            <section id="alloggi" style="display:none;">
+                <h2>🏨 Aggiungi un Alloggio</h2>
+                <div class="form-card">
+                    <label>Viaggio di riferimento</label>
+                    <select id="alloggio-viaggio">
+                        <option value="">-- Seleziona un viaggio --</option>
+                    </select>
+                    <label>Nome della struttura</label>
+                    <input type="text" id="alloggio-nome" placeholder="Es. Hotel Bellavista...">
+                    <label>Tipo di alloggio</label>
+                    <select id="alloggio-tipo">
+                        <option value="hotel">🏨 Hotel</option>
+                        <option value="bnb">🏡 B&B</option>
+                        <option value="airbnb">🛋️ Airbnb</option>
+                        <option value="ostello">🛏️ Ostello</option>
+                        <option value="appartamento">🏠 Appartamento</option>
+                        <option value="altro">🔹 Altro</option>
+                    </select>
+                    <label>Check-in</label>
+                    <input type="datetime-local" id="alloggio-checkin">
+                    <label>Check-out</label>
+                    <input type="datetime-local" id="alloggio-checkout">
+                    <label>Indirizzo</label>
+                    <input type="text" id="alloggio-indirizzo" placeholder="Es. Via Roma 12...">
+                    <label>Numero prenotazione</label>
+                    <input type="text" id="alloggio-riferimento" placeholder="Es. BK123456...">
+                    <label>Note</label>
+                    <input type="text" id="alloggio-note" placeholder="Es. Colazione inclusa...">
+                    <label>Prezzo totale soggiorno (€)</label>
+                    <input type="number" id="alloggio-prezzo" placeholder="Es. 350.00" min="0" step="0.01">
+                    <label>Allegato (PDF prenotazione, voucher...)</label>
+                    <div class="allegato-upload" id="alloggio-allegato-box">
+                        <input type="file" id="alloggio-allegato" accept=".pdf,image/*" style="display:none;"
+                            onchange="anteprimaAllegato('alloggio')">
+                        <label for="alloggio-allegato" class="btn-allegato">
+                            📎 Seleziona file
+                        </label>
+                        <span id="alloggio-allegato-nome" class="allegato-nome"></span>
+                        <button id="alloggio-allegato-rimuovi" class="btn-rimuovi-allegato"
+                            style="display:none;" onclick="rimuoviAllegato('alloggio')">✕</button>
+                    </div>
+                    <button class="btn-aggiungi" onclick="aggiungiAlloggio()">+ Aggiungi Alloggio</button>
+                </div>
+                <div id="lista-alloggi"></div>
+            </section>
+
+            <!-- Sezione Interessi -->
+            <section id="interessi" style="display:none;">
+                <h2>📍 Aggiungi un Punto di Interesse</h2>
+                <div class="form-card">
+                    <label>Viaggio di riferimento</label>
+                    <select id="interesse-viaggio">
+                        <option value="">-- Seleziona un viaggio --</option>
+                    </select>
+                    <label>Nome del luogo</label>
+                    <input type="text" id="interesse-nome" placeholder="Es. Torre Eiffel...">
+                    <label>Tipo di luogo</label>
+                    <select id="interesse-tipo">
+                        <option value="posto">👁️ Posto da vedere</option>
+                        <option value="ristorante">🍽️ Ristorante</option>
+                        <option value="bar">🍺 Bar/Pub</option>
+                        <option value="attivita">🎯 Attività</option>
+                        <option value="altro">🔹 Altro</option>
+                    </select>
+                    <label>Priorità</label>
+                    <select id="interesse-priorita">
+                        <option value="alta">🔴 Alta — da non perdere</option>
+                        <option value="media">🟡 Media — se c'è tempo</option>
+                        <option value="bassa">🟢 Bassa — opzionale</option>
+                    </select>
+                    <label>Città</label>
+                    <input type="text" id="interesse-citta" 
+                        placeholder="Es. Parigi, Roma, Tokyo..."
+                        list="citta-suggerimenti"
+                        autocomplete="off">
+                    <datalist id="citta-suggerimenti"></datalist>
+
+                    <label>Indirizzo o zona</label>
+                    <input type="text" id="interesse-indirizzo" placeholder="Es. Champ de Mars, Via del Corso...">
+                    <label>Note</label>
+                    <input type="text" id="interesse-note" placeholder="Es. Prenotare in anticipo...">
+                    <label>Prezzo biglietto/ingresso (€)</label>
+                    <input type="number" id="interesse-prezzo" placeholder="Es. 15.00 (lascia vuoto se gratuito)" min="0" step="0.01">
+                    <button class="btn-aggiungi" onclick="aggiungiInteresse()">+ Aggiungi Punto di Interesse</button>
+                </div>
+                <div id="lista-interessi"></div>
+            </section>
+
+            <!-- Sezione Note -->
+            <section id="note" style="display:none;">
+                <h2>📝 Aggiungi una Nota</h2>
+                <div class="form-card">
+                    <label>Viaggio di riferimento</label>
+                    <select id="nota-viaggio">
+                        <option value="">-- Seleziona un viaggio --</option>
+                    </select>
+                    <label>Titolo</label>
+                    <input type="text" id="nota-titolo" placeholder="Es. Cose da portare...">
+                    <label>Testo</label>
+                    <textarea id="nota-testo" placeholder="Scrivi qui la tua nota..."></textarea>
+                    <button class="btn-aggiungi" onclick="aggiungiNota()">+ Aggiungi Nota</button>
+                </div>
+                <div id="lista-note"></div>
+            </section>
+
+        </div>
+    </div>
+<!-- ======================== -->
+<!-- VISTA 3: BACKUP         -->
+<!-- ======================== -->
+<div id="vista-backup" class="vista" style="display:none;">
+    <div class="inserimento-contenuto">
+
+        <h2>💾 Backup dei dati</h2>
+        <p style="color:#666; margin-bottom:24px;">
+            I tuoi dati sono salvati localmente sul dispositivo. Usa questa sezione
+            per esportare una copia di sicurezza o per trasferire i dati su un nuovo dispositivo.
+        </p>
+
+        <!-- Esporta -->
+        <div class="backup-card">
+            <div class="backup-icona">📤</div>
+            <h3>Esporta backup</h3>
+            <p>Scarica un file con tutti i tuoi viaggi, trasporti, alloggi, punti di interesse e note.</p>
+            <button class="btn-backup-esporta" onclick="esportaDati()">
+                📤 Scarica backup
+            </button>
+        </div>
+
+        <!-- Importa -->
+        <div class="backup-card">
+            <div class="backup-icona">📥</div>
+            <h3>Importa backup</h3>
+            <p>Carica un file di backup precedentemente esportato. <strong>Attenzione:</strong> i dati attuali verranno sostituiti.</p>
+            <label class="btn-backup-importa" for="file-importa">
+                📥 Seleziona file di backup
+            </label>
+            <input type="file" id="file-importa" accept=".json"
+                style="display:none;" onchange="importaDati(event)">
+        </div>
+
+        <!-- Info -->
+        <div class="backup-info">
+            <h4>ℹ️ Come trasferire i dati sull'iPad</h4>
+            <ol>
+                <li>Clicca <strong>Scarica backup</strong> su questo PC</li>
+                <li>Trasferisci il file sull'iPad (via AirDrop, email, o iCloud Drive)</li>
+                <li>Apri l'app sull'iPad e vai su <strong>Backup → Importa</strong></li>
+                <li>Seleziona il file scaricato</li>
+            </ol>
+        </div>
+
+    </div>
+</div>
+<!-- MODALE VISUALIZZATORE ALLEGATI -->
+<div id="modale-allegato" style="display:none;"
+    class="modale-overlay" onclick="if(event.target===this) chiudiModale()">
+    <div class="modale-box">
+        <div class="modale-header">
+            <span id="modale-allegato-titolo"></span>
+            <div style="display:flex; gap:8px;">
+                <button class="btn-modale-scarica" onclick="scaricaAllegato()">⬇️ Scarica</button>
+                <button class="btn-modale-chiudi" onclick="chiudiModale()">✕</button>
+            </div>
+        </div>
+        <div id="modale-allegato-corpo"></div>
+        <!-- Campi nascosti per passare i dati -->
+        <input type="hidden" id="modale-allegato-dati">
+        <input type="hidden" id="modale-allegato-nome">
+    </div>
+</div>
+    <script src="app.js"></script>
+    <script>
+        // Registra il Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(function() { console.log('Service Worker registrato'); })
+                    .catch(function(err) { console.log('Errore SW:', err); });
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1102 @@
+/* ========================
+   BASE
+======================== */
+* { box-sizing: border-box; }
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f4f8;
+    color: #333;
+    -webkit-text-size-adjust: 100%;
+}
+
+/* ========================
+   HEADER E NAVIGAZIONE
+======================== */
+header {
+    background-color: #7c2ce5;
+    color: white;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 20px;
+}
+
+nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.nav-btn {
+    padding: 8px 18px;
+    border: 2px solid white;
+    border-radius: 20px;
+    background-color: transparent;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    min-height: 44px;
+}
+
+.nav-btn.attivo,
+.nav-btn:hover {
+    background-color: white;
+    color: #7c2ce5;
+}
+
+/* ========================
+   SELETTORE MOBILE
+   (nascosto su desktop)
+======================== */
+#selettore-mobile {
+    display: none;
+}
+
+/* ========================
+   LAYOUT SIDEBAR
+======================== */
+.layout-sidebar {
+    display: flex;
+    height: calc(100vh - 60px);
+}
+
+aside#sidebar-viaggi {
+    width: 240px;
+    min-width: 200px;
+    background-color: white;
+    border-right: 1px solid #e0e0e0;
+    padding: 16px;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+aside#sidebar-viaggi h3 {
+    margin: 0 0 16px 0;
+    font-size: 14px;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sidebar-card {
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    border: 1px solid #e0e0e0;
+    background-color: #f8faff;
+    transition: all 0.2s;
+}
+
+.sidebar-card:hover {
+    background-color: #e8f0fe;
+    border-color: #7c2ce5;
+}
+
+.sidebar-card.selezionato {
+    background-color: #7c2ce5;
+    border-color: #7c2ce5;
+    color: white;
+}
+
+.sidebar-card h4 {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+}
+
+.sidebar-card p {
+    margin: 0;
+    font-size: 11px;
+    opacity: 0.7;
+}
+
+/* ========================
+   AREA PRINCIPALE
+======================== */
+#area-principale {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+}
+
+.benvenuto-box {
+    text-align: center;
+    margin-top: 80px;
+    color: #999;
+}
+
+.benvenuto-icona {
+    font-size: 64px;
+    margin-bottom: 16px;
+}
+
+.benvenuto-box h2 { color: #555; }
+
+/* ========================
+   DETTAGLIO VIAGGIO
+======================== */
+.dettaglio-header {
+    background-color: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.dettaglio-header h2 {
+    margin: 0 0 16px 0;
+    color: #7c2ce5;
+    font-size: 24px;
+}
+
+.riepilogo-griglia {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+}
+
+.riepilogo-item {
+    background-color: #f0f4f8;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.riepilogo-item .etichetta {
+    font-size: 11px;
+    color: #999;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.riepilogo-item .valore {
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* ========================
+   SCHEDE INTERNE
+======================== */
+.schede-nav {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.scheda-btn {
+    padding: 8px 16px;
+    border: 1px solid #7c2ce5;
+    border-radius: 20px;
+    background-color: white;
+    color: #7c2ce5;
+    font-size: 13px;
+    cursor: pointer;
+    min-height: 44px;
+}
+
+.scheda-btn.attivo,
+.scheda-btn:hover {
+    background-color: #7c2ce5;
+    color: white;
+}
+
+/* ========================
+   VISTA INSERIMENTO
+======================== */
+.inserimento-contenuto {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 24px 16px;
+}
+
+.inserimento-nav {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.ins-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    background-color: #e8f0fe;
+    color: #7c2ce5;
+    font-size: 14px;
+    cursor: pointer;
+    min-height: 44px;
+}
+
+.ins-btn.attivo,
+.ins-btn:hover {
+    background-color: #7c2ce5;
+    color: white;
+}
+
+/* ========================
+   FORM
+======================== */
+.form-card {
+    background-color: #f8faff;
+    border: 1px solid #dce8ff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    color: #555;
+    margin-top: 12px;
+    margin-bottom: 4px;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="datetime-local"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: white;
+    font-family: Arial, sans-serif;
+    min-height: 44px;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.btn-aggiungi {
+    margin-top: 16px;
+    width: 100%;
+    padding: 14px;
+    background-color: #7c2ce5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    min-height: 44px;
+}
+
+.btn-aggiungi:hover { background-color: #1a5fc8; }
+
+/* ========================
+   CARD GENERICHE
+======================== */
+.viaggio-card,
+.trasporto-card,
+.alloggio-card,
+.interesse-card,
+.nota-card {
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.viaggio-card h4,
+.trasporto-card h4,
+.alloggio-card h4,
+.interesse-card h4 {
+    margin: 0 0 6px 0;
+    color: #7c2ce5;
+    font-size: 17px;
+}
+
+.viaggio-card p,
+.trasporto-card p,
+.alloggio-card p,
+.interesse-card p,
+.nota-card p {
+    margin: 2px 0;
+    font-size: 13px;
+    color: #666;
+}
+
+.nota-card {
+    border-left: 4px solid #7c2ce5;
+    align-items: flex-start;
+}
+
+.nota-card h4 {
+    margin: 0 0 6px 0;
+    color: #7c2ce5;
+    font-size: 17px;
+}
+
+.nota-testo {
+    font-size: 14px;
+    color: #333;
+    margin-top: 8px;
+    white-space: pre-wrap;
+    line-height: 1.5;
+}
+
+.nota-data {
+    font-size: 11px;
+    color: #999;
+    margin-top: 6px;
+}
+
+/* ========================
+   BOTTONI AZIONE
+======================== */
+.btn-elimina {
+    background-color: #ffe0e0;
+    color: #cc0000;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 13px;
+    white-space: nowrap;
+    margin-left: 8px;
+    min-height: 44px;
+}
+
+.btn-elimina:hover {
+    background-color: #cc0000;
+    color: white;
+}
+
+.btn-visitato {
+    background-color: #e0f5e0;
+    color: #006600;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 13px;
+    white-space: nowrap;
+    margin-left: 8px;
+    margin-top: 4px;
+    min-height: 44px;
+}
+
+.btn-visitato:hover {
+    background-color: #006600;
+    color: white;
+}
+
+.btn-modifica {
+    background-color: #fff8e0;
+    color: #996600;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 13px;
+    white-space: nowrap;
+    min-height: 44px;
+}
+
+.btn-modifica:hover {
+    background-color: #996600;
+    color: white;
+}
+
+/* ========================
+   TAG E ETICHETTE
+======================== */
+.tag-viaggio {
+    display: inline-block;
+    background-color: #e8f0fe;
+    color: #7c2ce5;
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.tag-priorita {
+    display: inline-block;
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 12px;
+    margin-bottom: 6px;
+    margin-left: 6px;
+}
+
+.priorita-alta { background-color: #ffe0e0; color: #cc0000; }
+.priorita-media { background-color: #fff8e0; color: #996600; }
+.priorita-bassa { background-color: #e0f5e0; color: #006600; }
+
+.stato-tag {
+    display: inline-block;
+    font-size: 11px;
+    border-radius: 10px;
+    padding: 2px 8px;
+    margin-top: 4px;
+}
+
+.stato-prossimo { background-color: #e0eeff; color: #7c2ce5; }
+.stato-in-corso { background-color: #e0f5e0; color: #006600; }
+.stato-passato  { background-color: #f0f0f0; color: #888; }
+
+/* ========================
+   MAPPA
+======================== */
+#mappa-contenitore {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+#mappa {
+    width: 100%;
+    height: 450px;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    z-index: 0;
+}
+
+#mappa-legenda {
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 16px;
+}
+
+#mappa-legenda h4 {
+    margin: 0 0 12px 0;
+    color: #333;
+    font-size: 14px;
+}
+
+.legenda-voce {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    font-size: 13px;
+    color: #555;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.legenda-voce:last-child { border-bottom: none; }
+
+.legenda-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.mappa-caricamento {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+    font-size: 14px;
+}
+
+/* ========================
+   BACKUP
+======================== */
+.backup-card {
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.backup-icona { font-size: 48px; margin-bottom: 12px; }
+
+.backup-card h3 { margin: 0 0 8px 0; color: #333; }
+
+.backup-card p {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.btn-backup-esporta {
+    display: inline-block;
+    padding: 12px 28px;
+    background-color: #7c2ce5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    min-height: 44px;
+}
+
+.btn-backup-esporta:hover { background-color: #1a5fc8; }
+
+.btn-backup-importa {
+    display: inline-block;
+    padding: 12px 28px;
+    background-color: #e8f0fe;
+    color: #7c2ce5;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    min-height: 44px;
+}
+
+.btn-backup-importa:hover {
+    background-color: #7c2ce5;
+    color: white;
+}
+
+.backup-info {
+    background-color: #f8faff;
+    border: 1px solid #dce8ff;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-top: 8px;
+}
+
+.backup-info h4 { margin: 0 0 12px 0; color: #7c2ce5; }
+
+.backup-info ol {
+    margin: 0;
+    padding-left: 20px;
+    color: #555;
+    font-size: 14px;
+    line-height: 2;
+}
+
+/* ========================
+   TABLET (iPad)
+   max-width: 768px
+======================== */
+@media (max-width: 768px) {
+
+    header {
+        padding: 10px 14px;
+    }
+
+    header h1 {
+        font-size: 17px;
+    }
+
+    .nav-btn {
+        padding: 7px 12px;
+        font-size: 13px;
+    }
+
+    aside#sidebar-viaggi {
+        width: 180px;
+        min-width: 160px;
+        padding: 12px;
+    }
+
+    #area-principale {
+        padding: 16px;
+    }
+
+    .dettaglio-header {
+        padding: 16px;
+    }
+
+    .dettaglio-header h2 {
+        font-size: 20px;
+    }
+
+    #mappa {
+        height: 350px;
+    }
+}
+
+/* ========================
+   MOBILE (iPhone)
+   max-width: 480px
+======================== */
+@media (max-width: 480px) {
+
+    header {
+        padding: 10px 12px;
+        gap: 6px;
+    }
+
+    header h1 {
+        font-size: 16px;
+    }
+
+    /* La navbar diventa a piena larghezza sotto il titolo */
+    nav {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .nav-btn {
+        padding: 6px 10px;
+        font-size: 12px;
+        flex: 1;
+        text-align: center;
+    }
+
+    /* Sidebar nascosta su mobile */
+    aside#sidebar-viaggi {
+        display: none;
+    }
+
+    /* Selettore mobile visibile */
+    #selettore-mobile {
+        display: block;
+        padding: 10px 12px;
+        background-color: white;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    #selettore-mobile select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #7c2ce5;
+        border-radius: 8px;
+        font-size: 15px;
+        background-color: #f0f6ff;
+        color: #7c2ce5;
+        font-weight: bold;
+    }
+
+    /* Layout sidebar diventa colonna */
+    .layout-sidebar {
+        flex-direction: column;
+        height: auto;
+        min-height: calc(100vh - 110px);
+    }
+
+    #area-principale {
+        padding: 12px;
+    }
+
+    /* Schede in griglia 2x2 su mobile */
+    .schede-nav {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+    }
+
+    .scheda-btn {
+        font-size: 12px;
+        padding: 8px 6px;
+        text-align: center;
+    }
+
+    /* Card più compatte */
+    .viaggio-card,
+    .trasporto-card,
+    .alloggio-card,
+    .interesse-card,
+    .nota-card {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* Bottoni a piena larghezza su mobile */
+    .btn-elimina,
+    .btn-modifica,
+    .btn-visitato {
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .dettaglio-header {
+        padding: 14px;
+    }
+
+    .dettaglio-header h2 {
+        font-size: 18px;
+    }
+
+    .riepilogo-griglia {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .inserimento-contenuto {
+        padding: 12px;
+    }
+
+    .inserimento-nav {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+    }
+
+    .ins-btn {
+        text-align: center;
+        font-size: 13px;
+    }
+
+    #mappa {
+        height: 280px;
+    }
+
+    .benvenuto-box {
+        margin-top: 40px;
+    }
+
+    .benvenuto-icona {
+        font-size: 48px;
+    }
+}
+/* ========================
+   FILTRO CITTÀ
+======================== */
+.filtro-citta-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    background-color: #f8faff;
+    border: 1px solid #dce8ff;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+}
+
+.filtro-label {
+    font-size: 13px;
+    font-weight: bold;
+    color: #555;
+    white-space: nowrap;
+}
+
+#filtro-citta-bottoni {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.filtro-btn {
+    padding: 5px 12px;
+    border: 1px solid #7c2ce5;
+    border-radius: 16px;
+    background-color: white;
+    color: #7c2ce5;
+    font-size: 12px;
+    cursor: pointer;
+    min-height: 32px;
+}
+
+.filtro-btn.attivo,
+.filtro-btn:hover {
+    background-color: #7c2ce5;
+    color: white;
+}
+
+/* Tag città */
+.tag-citta {
+    display: inline-block;
+    background-color: #f0e8ff;
+    color: #6600cc;
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 12px;
+    margin-bottom: 6px;
+    margin-left: 4px;
+}
+/* ========================
+   SCHEDA SPESE
+======================== */
+.spese-riepilogo {
+    margin-bottom: 20px;
+}
+
+.spesa-totale-card {
+    background: linear-gradient(135deg, #7c2ce5, #8a55df);
+    color: white;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.spesa-totale-etichetta {
+    font-size: 15px;
+    opacity: 0.9;
+}
+
+.spesa-totale-valore {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.spese-categorie-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.spesa-categoria-pill {
+    flex: 1;
+    min-width: 120px;
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+}
+
+.spesa-categoria-pill.trasporti {
+    background-color: #fff3e0;
+    color: #e65100;
+}
+
+.spesa-categoria-pill.alloggi {
+    background-color: #e3f2fd;
+    color: #1565c0;
+}
+
+.spesa-categoria-pill.interessi {
+    background-color: #f3e5f5;
+    color: #6a1b9a;
+}
+
+.spese-gruppo {
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.spese-gruppo-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+    font-weight: bold;
+    font-size: 14px;
+    color: #333;
+}
+
+.spesa-riga {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 13px;
+    color: #555;
+}
+
+.spesa-riga:last-child {
+    border-bottom: none;
+}
+
+.spesa-importo {
+    font-weight: bold;
+    color: #333;
+    white-space: nowrap;
+    margin-left: 12px;
+}
+
+.spese-vuoto {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+}
+
+/* Campo prezzo */
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: white;
+    min-height: 44px;
+    -webkit-appearance: none;
+    appearance: none;
+}
+/* Prezzo nelle card dettaglio */
+.prezzo-tag {
+    display: inline-block;
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border-radius: 8px;
+    padding: 3px 10px;
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 4px;
+}
+/* ========================
+   ALLEGATI
+======================== */
+.allegato-upload {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+.btn-allegato {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #e8f0fe;
+    color: #7c2ce5;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    min-height: 36px;
+    white-space: nowrap;
+}
+
+.btn-allegato:hover {
+    background-color: #7c2ce5;
+    color: white;
+}
+
+.allegato-nome {
+    font-size: 13px;
+    color: #555;
+    flex: 1;
+}
+
+.btn-rimuovi-allegato {
+    background: none;
+    border: none;
+    color: #cc0000;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px;
+}
+
+/* Tag allegato nelle card */
+.allegato-tag {
+    display: inline-block;
+    background-color: #fff8e0;
+    color: #996600;
+    border-radius: 8px;
+    padding: 3px 10px;
+    font-size: 13px;
+    margin-top: 4px;
+    cursor: pointer;
+    text-decoration: underline dotted;
+}
+
+.allegato-tag:hover {
+    background-color: #996600;
+    color: white;
+}
+
+/* ========================
+   MODALE ALLEGATI
+======================== */
+.modale-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 16px;
+}
+
+.modale-box {
+    background-color: white;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.modale-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    font-weight: bold;
+    font-size: 15px;
+    gap: 12px;
+}
+
+.btn-modale-scarica {
+    padding: 8px 16px;
+    background-color: #7c2ce5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    min-height: 36px;
+}
+
+.btn-modale-scarica:hover {
+    background-color: #1a5fc8;
+}
+
+.btn-modale-chiudi {
+    padding: 8px 12px;
+    background-color: #f0f0f0;
+    color: #333;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    min-height: 36px;
+}
+
+.btn-modale-chiudi:hover {
+    background-color: #ddd;
+}
+
+#modale-allegato-corpo {
+    padding: 16px;
+    overflow-y: auto;
+    flex: 1;
+}
+/* Bottone elimina viaggio nel dettaglio */
+.btn-elimina-viaggio {
+    float: right;
+    padding: 8px 14px;
+    background-color: #ffe0e0;
+    color: #cc0000;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    min-height: 36px;
+}
+
+.btn-elimina-viaggio:hover {
+    background-color: #cc0000;
+    color: white;
+}
