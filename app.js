@@ -35,8 +35,8 @@ function mostraVista(nomeVista) {
         document.getElementById('nav-inserimento').classList.add('attivo');
         mostraSezione('viaggi');
     }
-    if (nomeVista === 'vista-backup') {
-        document.getElementById('nav-backup').classList.add('attivo');
+    if (nomeVista === 'vista-impostazioni') {
+        document.getElementById('nav-impostazioni').classList.add('attivo');
     }
 }
 
@@ -418,17 +418,100 @@ function modificaViaggio(id) {
     document.getElementById('viaggio-destinazione').scrollIntoView({ behavior: 'smooth' });
 }
 
+// Variabile temporanea che tiene l'id del viaggio in attesa di conferma
+let viaggioInEliminazione = null;
+
 function eliminaViaggio(id) {
-    if (!confirm('Eliminare questo viaggio? Tutti i dati collegati rimarranno salvati.')) return;
-    const lista = leggiViaggi();
-    salvaViaggi(lista.filter(function(v) { return v.id !== id; }));
+    const viaggi = leggiViaggi();
+    const viaggio = viaggi.find(function(v) { return v.id === id; });
+    if (!viaggio) return;
+
+    // Conta i dati collegati
+    const nTrasporti = leggiTrasporti().filter(function(t) { return t.viaggioId === id; }).length;
+    const nAlloggi = leggiAlloggi().filter(function(a) { return a.viaggioId === id; }).length;
+    const nInteressi = leggiInteressi().filter(function(i) { return i.viaggioId === id; }).length;
+    const nNote = leggiNote().filter(function(n) { return n.viaggioId === id; }).length;
+    const totaleCollegati = nTrasporti + nAlloggi + nInteressi + nNote;
+
+    // Salva l'id in attesa della scelta dell'utente
+    viaggioInEliminazione = id;
+
+    // Costruisce il messaggio
+    let messaggio = `Stai per eliminare il viaggio <strong>${viaggio.destinazione}</strong>.`;
+
+    if (totaleCollegati > 0) {
+        messaggio += `<br><br>Sono presenti dati collegati:<br>`;
+        if (nTrasporti > 0) messaggio += `• ${nTrasporti} trasporto/i<br>`;
+        if (nAlloggi > 0) messaggio += `• ${nAlloggi} alloggio/i<br>`;
+        if (nInteressi > 0) messaggio += `• ${nInteressi} punto/i di interesse<br>`;
+        if (nNote > 0) messaggio += `• ${nNote} nota/e<br>`;
+        messaggio += `<br>Come vuoi procedere?`;
+
+        // Mostra tutti e tre i bottoni
+        document.getElementById('modale-elimina-bottoni').innerHTML = `
+            <button class="btn-modale-elimina-tutto" onclick="confermaEliminaViaggio('tutto')">
+                🗑️ Elimina viaggio e tutti i dati collegati
+            </button>
+            <button class="btn-modale-elimina-solo" onclick="confermaEliminaViaggio('solo')">
+                ✂️ Elimina solo il viaggio, mantieni i dati
+            </button>
+            <button class="btn-modale-annulla" onclick="chiudiModaleEliminaViaggio()">
+                ↩️ Annulla
+            </button>
+        `;
+    } else {
+        messaggio += `<br><br>Non ci sono dati collegati. Vuoi procedere?`;
+
+        // Nessun dato collegato — mostra solo Elimina e Annulla
+        document.getElementById('modale-elimina-bottoni').innerHTML = `
+            <button class="btn-modale-elimina-tutto" onclick="confermaEliminaViaggio('tutto')">
+                🗑️ Elimina viaggio
+            </button>
+            <button class="btn-modale-annulla" onclick="chiudiModaleEliminaViaggio()">
+                ↩️ Annulla
+            </button>
+        `;
+    }
+
+    document.getElementById('modale-elimina-messaggio').innerHTML = messaggio;
+    document.getElementById('modale-elimina-viaggio').style.display = 'flex';
+}
+
+function confermaEliminaViaggio(modalita) {
+    const id = viaggioInEliminazione;
+    if (!id) return;
+
+    // Elimina sempre il viaggio
+    salvaViaggi(leggiViaggi().filter(function(v) { return v.id !== id; }));
+
+    // Se scelto, elimina anche i dati collegati
+    if (modalita === 'tutto') {
+        salvaTrasporti(leggiTrasporti().filter(function(t) { return t.viaggioId !== id; }));
+        salvaAlloggi(leggiAlloggi().filter(function(a) { return a.viaggioId !== id; }));
+        salvaInteressi(leggiInteressi().filter(function(i) { return i.viaggioId !== id; }));
+        salvaNote(leggiNote().filter(function(n) { return n.viaggioId !== id; }));
+    }
+
+    // Aggiorna l'interfaccia
     if (viaggioSelezionatoId === id) {
         viaggioSelezionatoId = null;
         document.getElementById('schermata-benvenuto').style.display = 'block';
         document.getElementById('dettaglio-viaggio').style.display = 'none';
     }
+
+    chiudiModaleEliminaViaggio();
+
     mostraListaViaggi();
+    mostraListaTrasporti();
+    mostraListaAlloggi();
+    mostraListaInteressi();
+    mostraListaNote();
     aggiornaSidebar();
+}
+
+function chiudiModaleEliminaViaggio() {
+    viaggioInEliminazione = null;
+    document.getElementById('modale-elimina-viaggio').style.display = 'none';
 }
 
 function mostraListaViaggi() {
@@ -1511,6 +1594,161 @@ function scaricaAllegato() {
     link.download = nome;
     link.click();
 }
+// ============================================
+// IMPOSTAZIONI — DARK MODE
+// ============================================
+
+function toggleDarkMode() {
+    const attivo = document.getElementById('toggle-dark').checked;
+    document.body.classList.toggle('dark-mode', attivo);
+    localStorage.setItem('darkMode', attivo ? '1' : '0');
+}
+
+function applicaDarkMode() {
+    const salvato = localStorage.getItem('darkMode');
+    if (salvato === '1') {
+        document.body.classList.add('dark-mode');
+        const toggle = document.getElementById('toggle-dark');
+        if (toggle) toggle.checked = true;
+    }
+}
+
+// ============================================
+// IMPOSTAZIONI — LINGUA
+// ============================================
+
+const traduzioni = {
+    it: {
+        nav_viaggi: '🌍 I Miei Viaggi',
+        nav_inserimento: '➕ Inserisci Dati',
+        nav_impostazioni: '⚙️ Impostazioni',
+        ins_viaggi: '🌍 Viaggi',
+        ins_trasporti: '🚂 Trasporti',
+        ins_alloggi: '🏨 Alloggi',
+        ins_interessi: '📍 Interessi',
+        ins_note: '📝 Note',
+        benvenuto_titolo: 'Benvenuto!',
+        benvenuto_testo: 'Seleziona un viaggio dalla lista a sinistra<br>oppure creane uno nuovo nella sezione<br><strong>Inserisci Dati</strong>.',
+        sidebar_titolo: '📋 I tuoi viaggi',
+        sidebar_vuoto: 'Nessun viaggio ancora.<br>Vai su <strong>Inserisci Dati</strong> per aggiungerne uno.',
+        scheda_trasporti: '🚂 Trasporti',
+        scheda_alloggi: '🏨 Alloggi',
+        scheda_interessi: '📍 Interessi',
+        scheda_note: '📝 Note',
+        scheda_mappa: '🗺️ Mappa',
+        scheda_spese: '💰 Spese'
+    },
+    en: {
+        nav_viaggi: '🌍 My Trips',
+        nav_inserimento: '➕ Add Data',
+        nav_impostazioni: '⚙️ Settings',
+        ins_viaggi: '🌍 Trips',
+        ins_trasporti: '🚂 Transport',
+        ins_alloggi: '🏨 Accommodation',
+        ins_interessi: '📍 Interests',
+        ins_note: '📝 Notes',
+        benvenuto_titolo: 'Welcome!',
+        benvenuto_testo: 'Select a trip from the list on the left<br>or create a new one in the<br><strong>Add Data</strong> section.',
+        sidebar_titolo: '📋 Your trips',
+        sidebar_vuoto: 'No trips yet.<br>Go to <strong>Add Data</strong> to add one.',
+        scheda_trasporti: '🚂 Transport',
+        scheda_alloggi: '🏨 Accommodation',
+        scheda_interessi: '📍 Interests',
+        scheda_note: '📝 Notes',
+        scheda_mappa: '🗺️ Map',
+        scheda_spese: '💰 Expenses'
+    }
+};
+
+let linguaAttuale = 'it';
+
+function cambiaLingua(lingua) {
+    linguaAttuale = lingua;
+    localStorage.setItem('lingua', lingua);
+    applicaLingua(lingua);
+}
+
+function applicaLingua(lingua) {
+    const t = traduzioni[lingua];
+    if (!t) return;
+
+    // Navbar
+    document.getElementById('nav-viaggi').textContent = t.nav_viaggi;
+    document.getElementById('nav-inserimento').textContent = t.nav_inserimento;
+    document.getElementById('nav-impostazioni').textContent = t.nav_impostazioni;
+
+    // Bottoni inserimento
+    document.getElementById('ins-viaggi').textContent = t.ins_viaggi;
+    document.getElementById('ins-trasporti').textContent = t.ins_trasporti;
+    document.getElementById('ins-alloggi').textContent = t.ins_alloggi;
+    document.getElementById('ins-interessi').textContent = t.ins_interessi;
+    document.getElementById('ins-note').textContent = t.ins_note;
+
+    // Benvenuto
+    const benvenutoH2 = document.querySelector('.benvenuto-box h2');
+    const benvenutoP = document.querySelector('.benvenuto-box p');
+    if (benvenutoH2) benvenutoH2.textContent = t.benvenuto_titolo;
+    if (benvenutoP) benvenutoP.innerHTML = t.benvenuto_testo;
+
+    // Sidebar titolo
+    const sidebarH3 = document.querySelector('aside#sidebar-viaggi h3');
+    if (sidebarH3) sidebarH3.textContent = t.sidebar_titolo;
+
+    // Schede dettaglio
+    document.getElementById('btn-scheda-trasporti').textContent = t.scheda_trasporti;
+    document.getElementById('btn-scheda-alloggi').textContent = t.scheda_alloggi;
+    document.getElementById('btn-scheda-interessi').textContent = t.scheda_interessi;
+    document.getElementById('btn-scheda-note').textContent = t.scheda_note;
+    document.getElementById('btn-scheda-mappa').textContent = t.scheda_mappa;
+    document.getElementById('btn-scheda-spese').textContent = t.scheda_spese;
+
+    // Aggiorna il selettore lingua
+    const selectLingua = document.getElementById('select-lingua');
+    if (selectLingua) selectLingua.value = lingua;
+}
+
+function caricaLingua() {
+    const salvata = localStorage.getItem('lingua');
+    if (salvata) {
+        linguaAttuale = salvata;
+        applicaLingua(salvata);
+    }
+}
+
+// ============================================
+// IMPOSTAZIONI — CANCELLA TUTTI I DATI
+// ============================================
+
+function cancellaTuttiDati() {
+    const modale = document.getElementById('modale-cancella-dati');
+    modale.style.display = 'flex';
+}
+
+function confermaCancellaDati() {
+    localStorage.removeItem('viaggi');
+    localStorage.removeItem('trasporti');
+    localStorage.removeItem('alloggi');
+    localStorage.removeItem('interessi');
+    localStorage.removeItem('note');
+
+    viaggioSelezionatoId = null;
+    document.getElementById('schermata-benvenuto').style.display = 'block';
+    document.getElementById('dettaglio-viaggio').style.display = 'none';
+
+    mostraListaViaggi();
+    mostraListaTrasporti();
+    mostraListaAlloggi();
+    mostraListaInteressi();
+    mostraListaNote();
+    aggiornaSidebar();
+
+    chiudiModaleCancellaDati();
+    mostraVista('vista-viaggi');
+}
+
+function chiudiModaleCancellaDati() {
+    document.getElementById('modale-cancella-dati').style.display = 'none';
+}
 
 // ============================================
 // AVVIO
@@ -1522,3 +1760,5 @@ mostraListaTrasporti();
 mostraListaAlloggi();
 mostraListaInteressi();
 mostraListaNote();
+applicaDarkMode();
+caricaLingua();

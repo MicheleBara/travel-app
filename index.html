@@ -25,9 +25,9 @@
     <button onclick="mostraVista('vista-inserimento')" id="nav-inserimento" class="nav-btn">
         ➕ Inserisci Dati
     </button>
-    <button onclick="mostraVista('vista-backup')" id="nav-backup" class="nav-btn">
-        💾 Backup
-    </button>
+    <button onclick="mostraVista('vista-impostazioni')" id="nav-impostazioni" class="nav-btn">
+            ⚙️ Impostazioni
+        </button>
 </nav>
     </header>
 
@@ -291,49 +291,98 @@
 
         </div>
     </div>
-<!-- ======================== -->
-<!-- VISTA 3: BACKUP         -->
-<!-- ======================== -->
-<div id="vista-backup" class="vista" style="display:none;">
+<!-- ============================ -->
+<!-- VISTA 3: IMPOSTAZIONI       -->
+<!-- ============================ -->
+<div id="vista-impostazioni" class="vista" style="display:none;">
     <div class="inserimento-contenuto">
 
-        <h2>💾 Backup dei dati</h2>
-        <p style="color:#666; margin-bottom:24px;">
-            I tuoi dati sono salvati localmente sul dispositivo. Usa questa sezione
-            per esportare una copia di sicurezza o per trasferire i dati su un nuovo dispositivo.
-        </p>
+        <h2>⚙️ Impostazioni</h2>
 
-        <!-- Esporta -->
-        <div class="backup-card">
-            <div class="backup-icona">📤</div>
-            <h3>Esporta backup</h3>
-            <p>Scarica un file con tutti i tuoi viaggi, trasporti, alloggi, punti di interesse e note.</p>
-            <button class="btn-backup-esporta" onclick="esportaDati()">
-                📤 Scarica backup
-            </button>
+        <!-- BACKUP -->
+        <div class="impostazioni-gruppo">
+            <h3 class="impostazioni-titolo">💾 Backup dei dati</h3>
+            <p class="impostazioni-desc">I tuoi dati sono salvati localmente sul dispositivo. Esporta una copia di sicurezza o trasferisci i dati su un nuovo dispositivo.</p>
+
+            <div class="impostazioni-riga">
+                <div>
+                    <strong>Esporta backup</strong>
+                    <p>Scarica un file con tutti i tuoi dati</p>
+                </div>
+                <button class="btn-impostazioni-azione" onclick="esportaDati()">
+                    📤 Esporta
+                </button>
+            </div>
+
+            <div class="impostazioni-riga">
+                <div>
+                    <strong>Importa backup</strong>
+                    <p>Ripristina i dati da un file precedente</p>
+                </div>
+                <label class="btn-impostazioni-azione" for="file-importa">
+                    📥 Importa
+                </label>
+                <input type="file" id="file-importa" accept=".json"
+                    style="display:none;" onchange="importaDati(event)">
+            </div>
+
+            <div class="backup-info" style="margin-top:12px;">
+                <h4>ℹ️ Come trasferire i dati sull'iPhone</h4>
+                <ol>
+                    <li>Clicca <strong>Esporta</strong> su questo PC</li>
+                    <li>Trasferisci il file sull'iPhone (via AirDrop, email, o iCloud Drive)</li>
+                    <li>Apri l'app sull'iPhone e vai su <strong>Impostazioni → Importa</strong></li>
+                    <li>Seleziona il file scaricato</li>
+                </ol>
+            </div>
         </div>
 
-        <!-- Importa -->
-        <div class="backup-card">
-            <div class="backup-icona">📥</div>
-            <h3>Importa backup</h3>
-            <p>Carica un file di backup precedentemente esportato. <strong>Attenzione:</strong> i dati attuali verranno sostituiti.</p>
-            <label class="btn-backup-importa" for="file-importa">
-                📥 Seleziona file di backup
-            </label>
-            <input type="file" id="file-importa" accept=".json"
-                style="display:none;" onchange="importaDati(event)">
+        <!-- ASPETTO -->
+        <div class="impostazioni-gruppo">
+            <h3 class="impostazioni-titolo">🎨 Aspetto</h3>
+
+            <div class="impostazioni-riga">
+                <div>
+                    <strong>Tema scuro</strong>
+                    <p>Passa alla modalità dark</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="toggle-dark" onchange="toggleDarkMode()">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
         </div>
 
-        <!-- Info -->
-        <div class="backup-info">
-            <h4>ℹ️ Come trasferire i dati sull'iPad</h4>
-            <ol>
-                <li>Clicca <strong>Scarica backup</strong> su questo PC</li>
-                <li>Trasferisci il file sull'iPad (via AirDrop, email, o iCloud Drive)</li>
-                <li>Apri l'app sull'iPad e vai su <strong>Backup → Importa</strong></li>
-                <li>Seleziona il file scaricato</li>
-            </ol>
+        <!-- LINGUA -->
+        <div class="impostazioni-gruppo">
+            <h3 class="impostazioni-titolo">🌍 Lingua</h3>
+
+            <div class="impostazioni-riga">
+                <div>
+                    <strong>Lingua dell'app</strong>
+                    <p>Scegli la lingua dell'interfaccia</p>
+                </div>
+                <select id="select-lingua" onchange="cambiaLingua(this.value)"
+                    style="width:auto; min-width:140px;">
+                    <option value="it">🇮🇹 Italiano</option>
+                    <option value="en">🇬🇧 English</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- CANCELLA DATI -->
+        <div class="impostazioni-gruppo impostazioni-gruppo-danger">
+            <h3 class="impostazioni-titolo">⚠️ Zona pericolosa</h3>
+
+            <div class="impostazioni-riga">
+                <div>
+                    <strong>Cancella tutti i dati</strong>
+                    <p>Elimina definitivamente tutti i viaggi e i dati salvati</p>
+                </div>
+                <button class="btn-impostazioni-danger" onclick="cancellaTuttiDati()">
+                    🗑️ Cancella tutto
+                </button>
+            </div>
         </div>
 
     </div>
@@ -353,6 +402,52 @@
         <!-- Campi nascosti per passare i dati -->
         <input type="hidden" id="modale-allegato-dati">
         <input type="hidden" id="modale-allegato-nome">
+    </div>
+</div>
+<!-- MODALE ELIMINAZIONE VIAGGIO -->
+<div id="modale-elimina-viaggio" style="display:none;"
+    class="modale-overlay">
+    <div class="modale-box" style="max-width:420px;">
+        <div class="modale-header">
+            <span>🗑️ Elimina viaggio</span>
+        </div>
+        <div style="padding:20px;">
+            <p id="modale-elimina-messaggio" style="margin:0 0 16px 0; color:#333; line-height:1.6;"></p>
+            <div id="modale-elimina-bottoni" style="display:flex; flex-direction:column; gap:10px;">
+                <button class="btn-modale-elimina-tutto" onclick="confermaEliminaViaggio('tutto')">
+                    🗑️ Elimina viaggio e tutti i dati collegati
+                </button>
+                <button class="btn-modale-elimina-solo" onclick="confermaEliminaViaggio('solo')">
+                    ✂️ Elimina solo il viaggio, mantieni i dati
+                </button>
+                <button class="btn-modale-annulla" onclick="chiudiModaleEliminaViaggio()">
+                    ↩️ Annulla
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MODALE CANCELLA TUTTI I DATI -->
+<div id="modale-cancella-dati" style="display:none;"
+    class="modale-overlay">
+    <div class="modale-box" style="max-width:420px;">
+        <div class="modale-header">
+            <span>⚠️ Cancella tutti i dati</span>
+        </div>
+        <div style="padding:20px;">
+            <p style="margin:0 0 16px 0; color:#333; line-height:1.6;">
+                Stai per eliminare <strong>tutti i dati</strong> dell'app — viaggi, trasporti, alloggi, interessi e note.<br><br>
+                Questa operazione è <strong>irreversibile</strong>. Assicurati di aver esportato un backup prima di procedere.
+            </p>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                <button class="btn-modale-elimina-tutto" onclick="confermaCancellaDati()">
+                    🗑️ Sì, cancella tutto
+                </button>
+                <button class="btn-modale-annulla" onclick="chiudiModaleCancellaDati()">
+                    ↩️ Annulla
+                </button>
+            </div>
+        </div>
     </div>
 </div>
     <script src="app.js"></script>

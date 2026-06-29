@@ -1100,3 +1100,383 @@ input[type="number"] {
     background-color: #cc0000;
     color: white;
 }
+/* ========================
+   MODALE ELIMINA VIAGGIO
+======================== */
+.btn-modale-elimina-tutto {
+    width: 100%;
+    padding: 12px 16px;
+    background-color: #ffe0e0;
+    color: #cc0000;
+    border: 1px solid #ffb3b3;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
+    min-height: 44px;
+}
+
+.btn-modale-elimina-tutto:hover {
+    background-color: #cc0000;
+    color: white;
+}
+
+.btn-modale-elimina-solo {
+    width: 100%;
+    padding: 12px 16px;
+    background-color: #fff8e0;
+    color: #996600;
+    border: 1px solid #ffe099;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
+    min-height: 44px;
+}
+
+.btn-modale-elimina-solo:hover {
+    background-color: #996600;
+    color: white;
+}
+
+.btn-modale-annulla {
+    width: 100%;
+    padding: 12px 16px;
+    background-color: #f0f0f0;
+    color: #555;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
+    min-height: 44px;
+}
+
+.btn-modale-annulla:hover {
+    background-color: #ddd;
+    color: #333;
+}
+/* ========================
+   IMPOSTAZIONI
+======================== */
+.impostazioni-gruppo {
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+
+.impostazioni-gruppo-danger {
+    border-color: #ffb3b3;
+    background-color: #fff8f8;
+}
+
+.impostazioni-titolo {
+    margin: 0 0 16px 0;
+    font-size: 15px;
+    color: #333;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.impostazioni-desc {
+    font-size: 13px;
+    color: #666;
+    margin: -8px 0 16px 0;
+}
+
+.impostazioni-riga {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f5f5f5;
+    gap: 16px;
+}
+
+.impostazioni-riga:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.impostazioni-riga div p {
+    margin: 4px 0 0 0;
+    font-size: 12px;
+    color: #999;
+}
+
+.btn-impostazioni-azione {
+    padding: 8px 16px;
+    background-color: #e8f0fe;
+    color: #2c7be5;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+    min-height: 36px;
+}
+
+.btn-impostazioni-azione:hover {
+    background-color: #2c7be5;
+    color: white;
+}
+
+.btn-impostazioni-danger {
+    padding: 8px 16px;
+    background-color: #ffe0e0;
+    color: #cc0000;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+    min-height: 36px;
+}
+
+.btn-impostazioni-danger:hover {
+    background-color: #cc0000;
+    color: white;
+}
+
+/* ========================
+   TOGGLE SWITCH
+======================== */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 28px;
+    flex-shrink: 0;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc;
+    border-radius: 28px;
+    transition: 0.3s;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background-color: #2c7be5;
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+    transform: translateX(24px);
+}
+
+/* ========================
+   DARK MODE
+======================== */
+body.dark-mode {
+    background-color: #1a1a2e;
+    color: #e0e0e0;
+}
+
+body.dark-mode header {
+    background-color: #16213e;
+}
+
+body.dark-mode aside#sidebar-viaggi {
+    background-color: #16213e;
+    border-color: #2a2a4a;
+}
+
+body.dark-mode aside#sidebar-viaggi h3 {
+    color: #888;
+}
+
+body.dark-mode .sidebar-card {
+    background-color: #1a1a2e;
+    border-color: #2a2a4a;
+    color: #e0e0e0;
+}
+
+body.dark-mode .sidebar-card:hover {
+    background-color: #0f3460;
+    border-color: #2c7be5;
+}
+
+body.dark-mode .sidebar-card.selezionato {
+    background-color: #2c7be5;
+}
+
+body.dark-mode .dettaglio-header {
+    background-color: #16213e;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+body.dark-mode .riepilogo-item {
+    background-color: #1a1a2e;
+}
+
+body.dark-mode .riepilogo-item .valore {
+    color: #e0e0e0;
+}
+
+body.dark-mode .scheda-btn {
+    background-color: #16213e;
+    color: #2c7be5;
+    border-color: #2c7be5;
+}
+
+body.dark-mode .scheda-btn.attivo,
+body.dark-mode .scheda-btn:hover {
+    background-color: #2c7be5;
+    color: white;
+}
+
+body.dark-mode .viaggio-card,
+body.dark-mode .trasporto-card,
+body.dark-mode .alloggio-card,
+body.dark-mode .interesse-card,
+body.dark-mode .nota-card {
+    background-color: #16213e;
+    border-color: #2a2a4a;
+    color: #e0e0e0;
+}
+
+body.dark-mode .viaggio-card p,
+body.dark-mode .trasporto-card p,
+body.dark-mode .alloggio-card p,
+body.dark-mode .interesse-card p,
+body.dark-mode .nota-card p {
+    color: #aaa;
+}
+
+body.dark-mode .nota-testo {
+    color: #ccc;
+}
+
+body.dark-mode .form-card {
+    background-color: #16213e;
+    border-color: #2a2a4a;
+}
+
+body.dark-mode input[type="text"],
+body.dark-mode input[type="date"],
+body.dark-mode input[type="datetime-local"],
+body.dark-mode input[type="number"],
+body.dark-mode select,
+body.dark-mode textarea {
+    background-color: #1a1a2e;
+    border-color: #2a2a4a;
+    color: #e0e0e0;
+}
+
+body.dark-mode label {
+    color: #aaa;
+}
+
+body.dark-mode .inserimento-nav {
+    background-color: transparent;
+}
+
+body.dark-mode .ins-btn {
+    background-color: #16213e;
+    color: #2c7be5;
+}
+
+body.dark-mode .ins-btn.attivo,
+body.dark-mode .ins-btn:hover {
+    background-color: #2c7be5;
+    color: white;
+}
+
+body.dark-mode .impostazioni-gruppo {
+    background-color: #16213e;
+    border-color: #2a2a4a;
+}
+
+body.dark-mode .impostazioni-gruppo-danger {
+    background-color: #2a1616;
+    border-color: #cc0000;
+}
+
+body.dark-mode .impostazioni-titolo {
+    color: #e0e0e0;
+    border-color: #2a2a4a;
+}
+
+body.dark-mode .impostazioni-riga {
+    border-color: #2a2a4a;
+}
+
+body.dark-mode .impostazioni-riga div p {
+    color: #666;
+}
+
+body.dark-mode .modale-box {
+    background-color: #16213e;
+    color: #e0e0e0;
+}
+
+body.dark-mode .modale-header {
+    border-color: #2a2a4a;
+}
+
+body.dark-mode .filtro-citta-bar {
+    background-color: #16213e;
+    border-color: #2a2a4a;
+}
+
+body.dark-mode .filtro-btn {
+    background-color: #1a1a2e;
+    color: #2c7be5;
+}
+
+body.dark-mode .spese-gruppo {
+    background-color: #16213e;
+    border-color: #2a2a4a;
+}
+
+body.dark-mode .spese-gruppo-header {
+    background-color: #1a1a2e;
+    border-color: #2a2a4a;
+    color: #e0e0e0;
+}
+
+body.dark-mode .spesa-riga {
+    border-color: #2a2a4a;
+    color: #aaa;
+}
+
+body.dark-mode .spesa-importo {
+    color: #e0e0e0;
+}
+
+body.dark-mode .backup-info {
+    background-color: #1a1a2e;
+    border-color: #2a2a4a;
+}
+
+body.dark-mode .backup-info ol {
+    color: #aaa;
+}
+
+body.dark-mode #selettore-mobile select {
+    background-color: #16213e;
+    color: #2c7be5;
+    border-color: #2c7be5;
+}
