@@ -5,30 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>I Miei Viaggi</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="I Miei Viaggi">
     <meta name="theme-color" content="#2c7be5">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 
     <!-- INTESTAZIONE -->
     <header>
-        <h1>✈️ I Miei Viaggi</h1>
+        <h1 data-i18n="app_titolo" onclick="tornaAlBenvenuto()" style="cursor:pointer;" title="Torna alla home">✈️ I Miei Viaggi</h1>
         <nav>
-    <button onclick="mostraVista('vista-viaggi')" id="nav-viaggi" class="nav-btn attivo">
-        🌍 I Miei Viaggi
-    </button>
-    <button onclick="mostraVista('vista-inserimento')" id="nav-inserimento" class="nav-btn">
-        ➕ Inserisci Dati
-    </button>
-    <button onclick="mostraVista('vista-impostazioni')" id="nav-impostazioni" class="nav-btn">
-            ⚙️ Impostazioni
-        </button>
-</nav>
+            <button onclick="mostraVista('vista-viaggi')" id="nav-viaggi" class="nav-btn attivo" data-i18n="nav_viaggi">🌍 I Miei Viaggi</button>
+            <button onclick="mostraVista('vista-inserimento')" id="nav-inserimento" class="nav-btn" data-i18n="nav_inserimento">➕ Inserisci Dati</button>
+            <button onclick="mostraVista('vista-impostazioni')" id="nav-impostazioni" class="nav-btn" data-i18n="nav_impostazioni">⚙️ Impostazioni</button>
+        </nav>
     </header>
 
     <!-- ======================== -->
@@ -37,47 +31,39 @@
     <div id="vista-viaggi" class="vista">
         <div class="layout-sidebar">
 
-            <!-- Selettore viaggio per mobile (visibile solo su schermi piccoli) -->
-        <div id="selettore-mobile">
-            <select id="select-viaggio-mobile" onchange="selezionaViaggioDaMenu()">
-                <option value="">✈️ Seleziona un viaggio...</option>
-            </select>
-        </div>
+            <div id="selettore-mobile">
+                <select id="select-viaggio-mobile" onchange="selezionaViaggioDaMenu()">
+                    <option value="" data-i18n="seleziona_viaggio">✈️ Seleziona un viaggio...</option>
+                </select>
+            </div>
 
-        <aside id="sidebar-viaggi">
-            <h3>📋 I tuoi viaggi</h3>
-            <div id="sidebar-lista"></div>
-        </aside>
+            <aside id="sidebar-viaggi">
+                <h3 data-i18n="sidebar_titolo">📋 I tuoi viaggi</h3>
+                <div id="sidebar-lista"></div>
+            </aside>
 
-            <!-- Area principale destra -->
             <main id="area-principale">
-
-                <!-- Schermata iniziale (nessun viaggio selezionato) -->
                 <div id="schermata-benvenuto">
                     <div class="benvenuto-box">
                         <div class="benvenuto-icona">✈️</div>
-                        <h2>Benvenuto!</h2>
-                        <p>Seleziona un viaggio dalla lista a sinistra<br>oppure creane uno nuovo nella sezione<br><strong>Inserisci Dati</strong>.</p>
+                        <h2 data-i18n="benvenuto_titolo">Benvenuto!</h2>
+                        <p data-i18n="benvenuto_testo">Seleziona un viaggio dalla lista a sinistra<br>oppure creane uno nuovo nella sezione<br><strong>Inserisci Dati</strong>.</p>
                     </div>
                 </div>
 
-                <!-- Dettaglio viaggio (appare quando si seleziona un viaggio) -->
                 <div id="dettaglio-viaggio" style="display:none;">
-
-                    <!-- Riepilogo -->
                     <div class="dettaglio-header">
                         <h2 id="dettaglio-titolo"></h2>
                         <div id="dettaglio-riepilogo"></div>
                     </div>
 
-                    <!-- Schede interne -->
                     <div class="schede-nav">
-                        <button onclick="mostraScheda('scheda-trasporti')" class="scheda-btn attivo" id="btn-scheda-trasporti">🚂 Trasporti</button>
-                        <button onclick="mostraScheda('scheda-alloggi')" class="scheda-btn" id="btn-scheda-alloggi">🏨 Alloggi</button>
-                        <button onclick="mostraScheda('scheda-interessi')" class="scheda-btn" id="btn-scheda-interessi">📍 Interessi</button>
-                        <button onclick="mostraScheda('scheda-note')" class="scheda-btn" id="btn-scheda-note">📝 Note</button>
-                        <button onclick="mostraScheda('scheda-mappa')" class="scheda-btn" id="btn-scheda-mappa">🗺️ Mappa</button>
-                        <button onclick="mostraScheda('scheda-spese')" class="scheda-btn" id="btn-scheda-spese">💰 Spese</button>
+                        <button onclick="mostraScheda('scheda-trasporti')" class="scheda-btn attivo" id="btn-scheda-trasporti" data-i18n="scheda_trasporti">🚂 Trasporti</button>
+                        <button onclick="mostraScheda('scheda-alloggi')" class="scheda-btn" id="btn-scheda-alloggi" data-i18n="scheda_alloggi">🏨 Alloggi</button>
+                        <button onclick="mostraScheda('scheda-interessi')" class="scheda-btn" id="btn-scheda-interessi" data-i18n="scheda_interessi">📍 Interessi</button>
+                        <button onclick="mostraScheda('scheda-note')" class="scheda-btn" id="btn-scheda-note" data-i18n="scheda_note">📝 Note</button>
+                        <button onclick="mostraScheda('scheda-mappa')" class="scheda-btn" id="btn-scheda-mappa" data-i18n="scheda_mappa">🗺️ Mappa</button>
+                        <button onclick="mostraScheda('scheda-spese')" class="scheda-btn" id="btn-scheda-spese" data-i18n="scheda_spese">💰 Spese</button>
                     </div>
 
                     <div id="scheda-trasporti" class="scheda"></div>
@@ -85,7 +71,7 @@
                     <div id="scheda-interessi" class="scheda" style="display:none;">
                         <div id="filtro-citta-contenitore" style="display:none;">
                             <div class="filtro-citta-bar">
-                                <span class="filtro-label">🏙️ Filtra per città:</span>
+                                <span class="filtro-label" data-i18n="filtro_citta">🏙️ Filtra per città:</span>
                                 <div id="filtro-citta-bottoni"></div>
                             </div>
                         </div>
@@ -99,9 +85,7 @@
                             <div id="mappa-legenda"></div>
                         </div>
                     </div>
-
                 </div>
-
             </main>
         </div>
     </div>
@@ -112,347 +96,358 @@
     <div id="vista-inserimento" class="vista" style="display:none;">
         <div class="inserimento-contenuto">
 
-            <!-- Navigazione sezioni inserimento -->
             <div class="inserimento-nav">
-                <button onclick="mostraSezione('viaggi')" class="ins-btn attivo" id="ins-viaggi">🌍 Viaggi</button>
-                <button onclick="mostraSezione('trasporti')" class="ins-btn" id="ins-trasporti">🚂 Trasporti</button>
-                <button onclick="mostraSezione('alloggi')" class="ins-btn" id="ins-alloggi">🏨 Alloggi</button>
-                <button onclick="mostraSezione('interessi')" class="ins-btn" id="ins-interessi">📍 Interessi</button>
-                <button onclick="mostraSezione('note')" class="ins-btn" id="ins-note">📝 Note</button>
+                <button onclick="mostraSezione('viaggi')" class="ins-btn attivo" id="ins-viaggi" data-i18n="ins_viaggi">🌍 Viaggi</button>
+                <button onclick="mostraSezione('trasporti')" class="ins-btn" id="ins-trasporti" data-i18n="ins_trasporti">🚂 Trasporti</button>
+                <button onclick="mostraSezione('alloggi')" class="ins-btn" id="ins-alloggi" data-i18n="ins_alloggi">🏨 Alloggi</button>
+                <button onclick="mostraSezione('interessi')" class="ins-btn" id="ins-interessi" data-i18n="ins_interessi">📍 Interessi</button>
+                <button onclick="mostraSezione('note')" class="ins-btn" id="ins-note" data-i18n="ins_note">📝 Note</button>
             </div>
 
             <!-- Sezione Viaggi -->
             <section id="viaggi">
-                <h2>🌍 Aggiungi un Viaggio</h2>
-                <div class="form-card">
-                    <label>Destinazione</label>
-                    <input type="text" id="viaggio-destinazione" placeholder="Es. Parigi, Tokyo...">
-                    <label>Data di partenza</label>
-                    <input type="date" id="viaggio-partenza">
-                    <label>Data di ritorno</label>
-                    <input type="date" id="viaggio-ritorno">
-                    <label>Note rapide</label>
-                    <input type="text" id="viaggio-note" placeholder="Es. Viaggio di lavoro, vacanza...">
-                    <button class="btn-aggiungi" onclick="aggiungiViaggio()">+ Aggiungi Viaggio</button>
+                <h2 data-i18n="form_viaggi_titolo">🌍 Aggiungi un Viaggio</h2>
+
+                <!-- Form accordion -->
+                <div class="accordion-header" onclick="toggleAccordion('form-viaggi')">
+                    <h3 data-i18n="btn_aggiungi_viaggio">+ Aggiungi Viaggio</h3>
+                    <span class="accordion-icona">▼</span>
                 </div>
+                <div class="accordion-corpo" id="form-viaggi">
+                    <div class="form-card" style="margin-bottom:0; border:none; padding:0; background:transparent;">
+                        <label data-i18n="label_destinazione">Destinazione</label>
+                        <input type="text" id="viaggio-destinazione" data-i18n-placeholder="placeholder_destinazione" placeholder="Es. Parigi, Tokyo...">
+                        <label data-i18n="label_data_partenza">Data di partenza</label>
+                        <input type="date" id="viaggio-partenza">
+                        <label data-i18n="label_data_ritorno">Data di ritorno</label>
+                        <input type="date" id="viaggio-ritorno">
+                        <label data-i18n="label_note_rapide">Note rapide</label>
+                        <input type="text" id="viaggio-note" data-i18n-placeholder="placeholder_note_rapide" placeholder="Es. Viaggio di lavoro, vacanza...">
+                        <button class="btn-aggiungi" id="btn-aggiungi-viaggio" onclick="aggiungiViaggio()" data-i18n="btn_aggiungi_viaggio">+ Aggiungi Viaggio</button>
+                    </div>
+                </div>
+
+                <!-- Lista raggruppata -->
                 <div id="lista-viaggi"></div>
             </section>
 
             <!-- Sezione Trasporti -->
             <section id="trasporti" style="display:none;">
-                <h2>🚂 Aggiungi un Trasporto</h2>
-                <div class="form-card">
-                    <label>Viaggio di riferimento</label>
-                    <select id="trasporto-viaggio">
-                        <option value="">-- Seleziona un viaggio --</option>
-                    </select>
-                    <label>Mezzo di trasporto</label>
-                    <select id="trasporto-mezzo">
-                        <option value="aereo">✈️ Aereo</option>
-                        <option value="treno">🚂 Treno</option>
-                        <option value="auto">🚗 Auto</option>
-                        <option value="autobus">🚌 Autobus</option>
-                        <option value="nave">🚢 Nave</option>
-                        <option value="altro">🔹 Altro</option>
-                    </select>
-                    <label>Partenza da</label>
-                    <input type="text" id="trasporto-da" placeholder="Es. Milano Centrale...">
-                    <label>Arrivo a</label>
-                    <input type="text" id="trasporto-a" placeholder="Es. Parigi CDG...">
-                    <label>Data e ora di partenza</label>
-                    <input type="datetime-local" id="trasporto-data-partenza">
-                    <label>Data e ora di arrivo</label>
-                    <input type="datetime-local" id="trasporto-data-arrivo">
-                    <label>Numero prenotazione / volo / treno</label>
-                    <input type="text" id="trasporto-riferimento" placeholder="Es. FR1234...">
-                    <label>Prezzo (€)</label>
-                    <input type="number" id="trasporto-prezzo" placeholder="Es. 120.50" min="0" step="0.01">
-                    <label>Allegato (PDF carta d'imbarco, prenotazione...)</label>
-                    <div class="allegato-upload" id="trasporto-allegato-box">
-                        <input type="file" id="trasporto-allegato" accept=".pdf,image/*" style="display:none;"
-                            onchange="anteprimaAllegato('trasporto')">
-                        <label for="trasporto-allegato" class="btn-allegato">
-                            📎 Seleziona file
-                        </label>
-                        <span id="trasporto-allegato-nome" class="allegato-nome"></span>
-                        <button id="trasporto-allegato-rimuovi" class="btn-rimuovi-allegato"
-                            style="display:none;" onclick="rimuoviAllegato('trasporto')">✕</button>
-                    </div>
-                    <button class="btn-aggiungi" onclick="aggiungiTrasporto()">+ Aggiungi Trasporto</button>
+                <h2 data-i18n="form_trasporti_titolo">🚂 Aggiungi un Trasporto</h2>
+
+                <div class="accordion-header" onclick="toggleAccordion('form-trasporti')">
+                    <h3 data-i18n="btn_aggiungi_trasporto">+ Aggiungi Trasporto</h3>
+                    <span class="accordion-icona">▼</span>
                 </div>
+                <div class="accordion-corpo" id="form-trasporti">
+                    <div class="form-card" style="margin-bottom:0; border:none; padding:0; background:transparent;">
+                        <label data-i18n="label_viaggio_rif">Viaggio di riferimento</label>
+                        <select id="trasporto-viaggio">
+                            <option value="" data-i18n="seleziona_viaggio_opt">-- Seleziona un viaggio --</option>
+                        </select>
+                        <label data-i18n="label_mezzo">Mezzo di trasporto</label>
+                        <select id="trasporto-mezzo">
+                            <option value="aereo" data-i18n="mezzo_aereo">✈️ Aereo</option>
+                            <option value="treno" data-i18n="mezzo_treno">🚂 Treno</option>
+                            <option value="auto" data-i18n="mezzo_auto">🚗 Auto</option>
+                            <option value="autobus" data-i18n="mezzo_autobus">🚌 Autobus</option>
+                            <option value="nave" data-i18n="mezzo_nave">🚢 Nave</option>
+                            <option value="altro" data-i18n="mezzo_altro">🔹 Altro</option>
+                        </select>
+                        <label data-i18n="label_partenza_da">Partenza da</label>
+                        <input type="text" id="trasporto-da" data-i18n-placeholder="placeholder_partenza_da" placeholder="Es. Milano Centrale...">
+                        <label data-i18n="label_arrivo_a">Arrivo a</label>
+                        <input type="text" id="trasporto-a" data-i18n-placeholder="placeholder_arrivo_a" placeholder="Es. Parigi CDG...">
+                        <label data-i18n="label_data_ora_partenza">Data e ora di partenza</label>
+                        <input type="datetime-local" id="trasporto-data-partenza">
+                        <label data-i18n="label_data_ora_arrivo">Data e ora di arrivo</label>
+                        <input type="datetime-local" id="trasporto-data-arrivo">
+                        <label data-i18n="label_riferimento">Numero prenotazione / volo / treno</label>
+                        <input type="text" id="trasporto-riferimento" data-i18n-placeholder="placeholder_riferimento" placeholder="Es. FR1234...">
+                        <label data-i18n="label_prezzo">Prezzo (€)</label>
+                        <input type="number" id="trasporto-prezzo" data-i18n-placeholder="placeholder_prezzo" placeholder="Es. 120.50" min="0" step="0.01">
+                        <label data-i18n="label_allegato_trasporto">Allegato (PDF carta d'imbarco, prenotazione...)</label>
+                        <div class="allegato-upload" id="trasporto-allegato-box">
+                            <input type="file" id="trasporto-allegato" accept=".pdf,image/*" style="display:none;" onchange="anteprimaAllegato('trasporto')">
+                            <label for="trasporto-allegato" class="btn-allegato" data-i18n="btn_seleziona_file">📎 Seleziona file</label>
+                            <span id="trasporto-allegato-nome" class="allegato-nome"></span>
+                            <button id="trasporto-allegato-rimuovi" class="btn-rimuovi-allegato" style="display:none;" onclick="rimuoviAllegato('trasporto')">✕</button>
+                        </div>
+                        <button class="btn-aggiungi" id="btn-aggiungi-trasporto" onclick="aggiungiTrasporto()" data-i18n="btn_aggiungi_trasporto">+ Aggiungi Trasporto</button>
+                    </div>
+                </div>
+
                 <div id="lista-trasporti"></div>
             </section>
 
             <!-- Sezione Alloggi -->
             <section id="alloggi" style="display:none;">
-                <h2>🏨 Aggiungi un Alloggio</h2>
-                <div class="form-card">
-                    <label>Viaggio di riferimento</label>
-                    <select id="alloggio-viaggio">
-                        <option value="">-- Seleziona un viaggio --</option>
-                    </select>
-                    <label>Nome della struttura</label>
-                    <input type="text" id="alloggio-nome" placeholder="Es. Hotel Bellavista...">
-                    <label>Tipo di alloggio</label>
-                    <select id="alloggio-tipo">
-                        <option value="hotel">🏨 Hotel</option>
-                        <option value="bnb">🏡 B&B</option>
-                        <option value="airbnb">🛋️ Airbnb</option>
-                        <option value="ostello">🛏️ Ostello</option>
-                        <option value="appartamento">🏠 Appartamento</option>
-                        <option value="altro">🔹 Altro</option>
-                    </select>
-                    <label>Check-in</label>
-                    <input type="datetime-local" id="alloggio-checkin">
-                    <label>Check-out</label>
-                    <input type="datetime-local" id="alloggio-checkout">
-                    <label>Indirizzo</label>
-                    <input type="text" id="alloggio-indirizzo" placeholder="Es. Via Roma 12...">
-                    <label>Numero prenotazione</label>
-                    <input type="text" id="alloggio-riferimento" placeholder="Es. BK123456...">
-                    <label>Note</label>
-                    <input type="text" id="alloggio-note" placeholder="Es. Colazione inclusa...">
-                    <label>Prezzo totale soggiorno (€)</label>
-                    <input type="number" id="alloggio-prezzo" placeholder="Es. 350.00" min="0" step="0.01">
-                    <label>Allegato (PDF prenotazione, voucher...)</label>
-                    <div class="allegato-upload" id="alloggio-allegato-box">
-                        <input type="file" id="alloggio-allegato" accept=".pdf,image/*" style="display:none;"
-                            onchange="anteprimaAllegato('alloggio')">
-                        <label for="alloggio-allegato" class="btn-allegato">
-                            📎 Seleziona file
-                        </label>
-                        <span id="alloggio-allegato-nome" class="allegato-nome"></span>
-                        <button id="alloggio-allegato-rimuovi" class="btn-rimuovi-allegato"
-                            style="display:none;" onclick="rimuoviAllegato('alloggio')">✕</button>
-                    </div>
-                    <button class="btn-aggiungi" onclick="aggiungiAlloggio()">+ Aggiungi Alloggio</button>
+                <h2 data-i18n="form_alloggi_titolo">🏨 Aggiungi un Alloggio</h2>
+
+                <div class="accordion-header" onclick="toggleAccordion('form-alloggi')">
+                    <h3 data-i18n="btn_aggiungi_alloggio">+ Aggiungi Alloggio</h3>
+                    <span class="accordion-icona">▼</span>
                 </div>
+                <div class="accordion-corpo" id="form-alloggi">
+                    <div class="form-card" style="margin-bottom:0; border:none; padding:0; background:transparent;">
+                        <label data-i18n="label_viaggio_rif">Viaggio di riferimento</label>
+                        <select id="alloggio-viaggio">
+                            <option value="" data-i18n="seleziona_viaggio_opt">-- Seleziona un viaggio --</option>
+                        </select>
+                        <label data-i18n="label_nome_struttura">Nome della struttura</label>
+                        <input type="text" id="alloggio-nome" data-i18n-placeholder="placeholder_nome_struttura" placeholder="Es. Hotel Bellavista...">
+                        <label data-i18n="label_tipo_alloggio">Tipo di alloggio</label>
+                        <select id="alloggio-tipo">
+                            <option value="hotel" data-i18n="tipo_hotel">🏨 Hotel</option>
+                            <option value="bnb" data-i18n="tipo_bnb">🏡 B&B</option>
+                            <option value="airbnb" data-i18n="tipo_airbnb">🛋️ Airbnb</option>
+                            <option value="ostello" data-i18n="tipo_ostello">🛏️ Ostello</option>
+                            <option value="appartamento" data-i18n="tipo_appartamento">🏠 Appartamento</option>
+                            <option value="altro" data-i18n="tipo_altro_alloggio">🔹 Altro</option>
+                        </select>
+                        <label data-i18n="label_checkin">Check-in</label>
+                        <input type="datetime-local" id="alloggio-checkin">
+                        <label data-i18n="label_checkout">Check-out</label>
+                        <input type="datetime-local" id="alloggio-checkout">
+                        <label data-i18n="label_indirizzo">Indirizzo</label>
+                        <input type="text" id="alloggio-indirizzo" data-i18n-placeholder="placeholder_indirizzo" placeholder="Es. Via Roma 12...">
+                        <label data-i18n="label_num_prenotazione">Numero prenotazione</label>
+                        <input type="text" id="alloggio-riferimento" data-i18n-placeholder="placeholder_num_prenotazione" placeholder="Es. BK123456...">
+                        <label data-i18n="label_note">Note</label>
+                        <input type="text" id="alloggio-note" data-i18n-placeholder="placeholder_note_alloggio" placeholder="Es. Colazione inclusa...">
+                        <label data-i18n="label_prezzo_soggiorno">Prezzo totale soggiorno (€)</label>
+                        <input type="number" id="alloggio-prezzo" data-i18n-placeholder="placeholder_prezzo" placeholder="Es. 350.00" min="0" step="0.01">
+                        <label data-i18n="label_allegato_alloggio">Allegato (PDF prenotazione, voucher...)</label>
+                        <div class="allegato-upload" id="alloggio-allegato-box">
+                            <input type="file" id="alloggio-allegato" accept=".pdf,image/*" style="display:none;" onchange="anteprimaAllegato('alloggio')">
+                            <label for="alloggio-allegato" class="btn-allegato" data-i18n="btn_seleziona_file">📎 Seleziona file</label>
+                            <span id="alloggio-allegato-nome" class="allegato-nome"></span>
+                            <button id="alloggio-allegato-rimuovi" class="btn-rimuovi-allegato" style="display:none;" onclick="rimuoviAllegato('alloggio')">✕</button>
+                        </div>
+                        <button class="btn-aggiungi" id="btn-aggiungi-alloggio" onclick="aggiungiAlloggio()" data-i18n="btn_aggiungi_alloggio">+ Aggiungi Alloggio</button>
+                    </div>
+                </div>
+
                 <div id="lista-alloggi"></div>
             </section>
 
             <!-- Sezione Interessi -->
             <section id="interessi" style="display:none;">
-                <h2>📍 Aggiungi un Punto di Interesse</h2>
-                <div class="form-card">
-                    <label>Viaggio di riferimento</label>
-                    <select id="interesse-viaggio">
-                        <option value="">-- Seleziona un viaggio --</option>
-                    </select>
-                    <label>Nome del luogo</label>
-                    <input type="text" id="interesse-nome" placeholder="Es. Torre Eiffel...">
-                    <label>Tipo di luogo</label>
-                    <select id="interesse-tipo">
-                        <option value="posto">👁️ Posto da vedere</option>
-                        <option value="ristorante">🍽️ Ristorante</option>
-                        <option value="bar">🍺 Bar/Pub</option>
-                        <option value="attivita">🎯 Attività</option>
-                        <option value="altro">🔹 Altro</option>
-                    </select>
-                    <label>Priorità</label>
-                    <select id="interesse-priorita">
-                        <option value="alta">🔴 Alta — da non perdere</option>
-                        <option value="media">🟡 Media — se c'è tempo</option>
-                        <option value="bassa">🟢 Bassa — opzionale</option>
-                    </select>
-                    <label>Città</label>
-                    <input type="text" id="interesse-citta" 
-                        placeholder="Es. Parigi, Roma, Tokyo..."
-                        list="citta-suggerimenti"
-                        autocomplete="off">
-                    <datalist id="citta-suggerimenti"></datalist>
+                <h2 data-i18n="form_interessi_titolo">📍 Aggiungi un Punto di Interesse</h2>
 
-                    <label>Indirizzo o zona</label>
-                    <input type="text" id="interesse-indirizzo" placeholder="Es. Champ de Mars, Via del Corso...">
-                    <label>Note</label>
-                    <input type="text" id="interesse-note" placeholder="Es. Prenotare in anticipo...">
-                    <label>Prezzo biglietto/ingresso (€)</label>
-                    <input type="number" id="interesse-prezzo" placeholder="Es. 15.00 (lascia vuoto se gratuito)" min="0" step="0.01">
-                    <button class="btn-aggiungi" onclick="aggiungiInteresse()">+ Aggiungi Punto di Interesse</button>
+                <div class="accordion-header" onclick="toggleAccordion('form-interessi')">
+                    <h3 data-i18n="btn_aggiungi_interesse">+ Aggiungi Punto di Interesse</h3>
+                    <span class="accordion-icona">▼</span>
                 </div>
+                <div class="accordion-corpo" id="form-interessi">
+                    <div class="form-card" style="margin-bottom:0; border:none; padding:0; background:transparent;">
+                        <label data-i18n="label_viaggio_rif">Viaggio di riferimento</label>
+                        <select id="interesse-viaggio">
+                            <option value="" data-i18n="seleziona_viaggio_opt">-- Seleziona un viaggio --</option>
+                        </select>
+                        <label data-i18n="label_nome_luogo">Nome del luogo</label>
+                        <input type="text" id="interesse-nome" data-i18n-placeholder="placeholder_nome_luogo" placeholder="Es. Torre Eiffel...">
+                        <label data-i18n="label_tipo_luogo">Tipo di luogo</label>
+                        <select id="interesse-tipo">
+                            <option value="posto" data-i18n="tipo_posto">👁️ Posto da vedere</option>
+                            <option value="ristorante" data-i18n="tipo_ristorante">🍽️ Ristorante</option>
+                            <option value="bar" data-i18n="tipo_bar">🍺 Bar/Pub</option>
+                            <option value="attivita" data-i18n="tipo_attivita">🎯 Attività</option>
+                            <option value="altro" data-i18n="tipo_altro">🔹 Altro</option>
+                        </select>
+                        <label data-i18n="label_priorita">Priorità</label>
+                        <select id="interesse-priorita">
+                            <option value="alta" data-i18n="priorita_alta">🔴 Alta — da non perdere</option>
+                            <option value="media" data-i18n="priorita_media">🟡 Media — se c'è tempo</option>
+                            <option value="bassa" data-i18n="priorita_bassa">🟢 Bassa — opzionale</option>
+                        </select>
+                        <label data-i18n="label_citta">Città</label>
+                        <input type="text" id="interesse-citta" data-i18n-placeholder="placeholder_citta" placeholder="Es. Parigi, Roma, Tokyo..."
+                            list="citta-suggerimenti" autocomplete="off">
+                        <datalist id="citta-suggerimenti"></datalist>
+                        <label data-i18n="label_indirizzo_zona">Indirizzo o zona</label>
+                        <input type="text" id="interesse-indirizzo" data-i18n-placeholder="placeholder_indirizzo_zona" placeholder="Es. Champ de Mars...">
+                        <label data-i18n="label_note">Note</label>
+                        <input type="text" id="interesse-note" data-i18n-placeholder="placeholder_note_interesse" placeholder="Es. Prenotare in anticipo...">
+                        <label data-i18n="label_prezzo_ingresso">Prezzo biglietto/ingresso (€)</label>
+                        <input type="number" id="interesse-prezzo" data-i18n-placeholder="placeholder_prezzo_ingresso" placeholder="Es. 15.00 (lascia vuoto se gratuito)" min="0" step="0.01">
+                        <button class="btn-aggiungi" id="btn-aggiungi-interesse" onclick="aggiungiInteresse()" data-i18n="btn_aggiungi_interesse">+ Aggiungi Punto di Interesse</button>
+                    </div>
+                </div>
+
                 <div id="lista-interessi"></div>
             </section>
 
             <!-- Sezione Note -->
             <section id="note" style="display:none;">
-                <h2>📝 Aggiungi una Nota</h2>
-                <div class="form-card">
-                    <label>Viaggio di riferimento</label>
-                    <select id="nota-viaggio">
-                        <option value="">-- Seleziona un viaggio --</option>
-                    </select>
-                    <label>Titolo</label>
-                    <input type="text" id="nota-titolo" placeholder="Es. Cose da portare...">
-                    <label>Testo</label>
-                    <textarea id="nota-testo" placeholder="Scrivi qui la tua nota..."></textarea>
-                    <button class="btn-aggiungi" onclick="aggiungiNota()">+ Aggiungi Nota</button>
+                <h2 data-i18n="form_note_titolo">📝 Aggiungi una Nota</h2>
+
+                <div class="accordion-header" onclick="toggleAccordion('form-note')">
+                    <h3 data-i18n="btn_aggiungi_nota">+ Aggiungi Nota</h3>
+                    <span class="accordion-icona">▼</span>
                 </div>
+                <div class="accordion-corpo" id="form-note">
+                    <div class="form-card" style="margin-bottom:0; border:none; padding:0; background:transparent;">
+                        <label data-i18n="label_viaggio_rif">Viaggio di riferimento</label>
+                        <select id="nota-viaggio">
+                            <option value="" data-i18n="seleziona_viaggio_opt">-- Seleziona un viaggio --</option>
+                        </select>
+                        <label data-i18n="label_titolo_nota">Titolo</label>
+                        <input type="text" id="nota-titolo" data-i18n-placeholder="placeholder_titolo_nota" placeholder="Es. Cose da portare...">
+                        <label data-i18n="label_testo_nota">Testo</label>
+                        <textarea id="nota-testo" data-i18n-placeholder="placeholder_testo_nota" placeholder="Scrivi qui la tua nota..."></textarea>
+                        <button class="btn-aggiungi" id="btn-aggiungi-nota" onclick="aggiungiNota()" data-i18n="btn_aggiungi_nota">+ Aggiungi Nota</button>
+                    </div>
+                </div>
+
                 <div id="lista-note"></div>
             </section>
 
         </div>
     </div>
-<!-- ============================ -->
-<!-- VISTA 3: IMPOSTAZIONI       -->
-<!-- ============================ -->
-<div id="vista-impostazioni" class="vista" style="display:none;">
-    <div class="inserimento-contenuto">
 
-        <h2>⚙️ Impostazioni</h2>
+    <!-- ============================ -->
+    <!-- VISTA 3: IMPOSTAZIONI       -->
+    <!-- ============================ -->
+    <div id="vista-impostazioni" class="vista" style="display:none;">
+        <div class="inserimento-contenuto">
 
-        <!-- BACKUP -->
-        <div class="impostazioni-gruppo">
-            <h3 class="impostazioni-titolo">💾 Backup dei dati</h3>
-            <p class="impostazioni-desc">I tuoi dati sono salvati localmente sul dispositivo. Esporta una copia di sicurezza o trasferisci i dati su un nuovo dispositivo.</p>
+            <h2 data-i18n="impostazioni_titolo">⚙️ Impostazioni</h2>
 
-            <div class="impostazioni-riga">
-                <div>
-                    <strong>Esporta backup</strong>
-                    <p>Scarica un file con tutti i tuoi dati</p>
+            <!-- BACKUP -->
+            <div class="accordion-header" onclick="toggleAccordion('imp-backup')">
+                <h3 data-i18n="imp_backup_titolo">💾 Backup dei dati</h3>
+                <span class="accordion-icona">▼</span>
+            </div>
+            <div class="accordion-corpo" id="imp-backup">
+                <p class="impostazioni-desc" data-i18n="imp_backup_desc">I tuoi dati sono salvati localmente sul dispositivo.</p>
+                <div class="impostazioni-riga">
+                    <div>
+                        <strong data-i18n="imp_esporta_titolo">Esporta backup</strong>
+                        <p data-i18n="imp_esporta_desc">Scarica un file con tutti i tuoi dati</p>
+                    </div>
+                    <button class="btn-impostazioni-azione" onclick="esportaDati()" data-i18n="btn_esporta">📤 Esporta</button>
                 </div>
-                <button class="btn-impostazioni-azione" onclick="esportaDati()">
-                    📤 Esporta
-                </button>
-            </div>
-
-            <div class="impostazioni-riga">
-                <div>
-                    <strong>Importa backup</strong>
-                    <p>Ripristina i dati da un file precedente</p>
+                <div class="impostazioni-riga">
+                    <div>
+                        <strong data-i18n="imp_importa_titolo">Importa backup</strong>
+                        <p data-i18n="imp_importa_desc">Ripristina i dati da un file precedente</p>
+                    </div>
+                    <label class="btn-impostazioni-azione" for="file-importa" data-i18n="btn_importa">📥 Importa</label>
+                    <input type="file" id="file-importa" accept=".json" style="display:none;" onchange="importaDati(event)">
                 </div>
-                <label class="btn-impostazioni-azione" for="file-importa">
-                    📥 Importa
-                </label>
-                <input type="file" id="file-importa" accept=".json"
-                    style="display:none;" onchange="importaDati(event)">
+                <div class="backup-info" style="margin-top:12px;">
+                    <h4 data-i18n="imp_come_trasferire">ℹ️ Come trasferire i dati sull'iPhone</h4>
+                    <ol>
+                        <li data-i18n="imp_step1">Clicca <strong>Esporta</strong> su questo PC</li>
+                        <li data-i18n="imp_step2">Trasferisci il file sull'iPhone (via AirDrop, email, o iCloud Drive)</li>
+                        <li data-i18n="imp_step3">Apri l'app sull'iPhone e vai su <strong>Impostazioni → Importa</strong></li>
+                        <li data-i18n="imp_step4">Seleziona il file scaricato</li>
+                    </ol>
+                </div>
             </div>
 
-            <div class="backup-info" style="margin-top:12px;">
-                <h4>ℹ️ Come trasferire i dati sull'iPhone</h4>
-                <ol>
-                    <li>Clicca <strong>Esporta</strong> su questo PC</li>
-                    <li>Trasferisci il file sull'iPhone (via AirDrop, email, o iCloud Drive)</li>
-                    <li>Apri l'app sull'iPhone e vai su <strong>Impostazioni → Importa</strong></li>
-                    <li>Seleziona il file scaricato</li>
-                </ol>
+            <!-- ASPETTO -->
+            <div class="accordion-header" onclick="toggleAccordion('imp-aspetto')">
+                <h3 data-i18n="imp_aspetto_titolo">🎨 Aspetto</h3>
+                <span class="accordion-icona">▼</span>
             </div>
+            <div class="accordion-corpo" id="imp-aspetto">
+                <div class="impostazioni-riga">
+                    <div>
+                        <strong data-i18n="imp_dark_titolo">Tema scuro</strong>
+                        <p data-i18n="imp_dark_desc">Passa alla modalità dark</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="toggle-dark" onchange="toggleDarkMode()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- LINGUA -->
+            <div class="accordion-header" onclick="toggleAccordion('imp-lingua')">
+                <h3 data-i18n="imp_lingua_titolo">🌍 Lingua</h3>
+                <span class="accordion-icona">▼</span>
+            </div>
+            <div class="accordion-corpo" id="imp-lingua">
+                <div class="impostazioni-riga">
+                    <div>
+                        <strong data-i18n="imp_lingua_label">Lingua dell'app</strong>
+                        <p data-i18n="imp_lingua_desc">Scegli la lingua dell'interfaccia</p>
+                    </div>
+                    <select id="select-lingua" onchange="cambiaLingua(this.value)" style="width:auto; min-width:140px;">
+                        <option value="it">🇮🇹 Italiano</option>
+                        <option value="en">🇬🇧 English</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- ZONA PERICOLOSA -->
+            <div class="accordion-header accordion-danger" onclick="toggleAccordion('imp-danger')">
+                <h3 data-i18n="imp_danger_titolo">⚠️ Zona pericolosa</h3>
+                <span class="accordion-icona">▼</span>
+            </div>
+            <div class="accordion-corpo accordion-corpo-danger" id="imp-danger">
+                <div class="impostazioni-riga">
+                    <div>
+                        <strong data-i18n="imp_cancella_titolo">Cancella tutti i dati</strong>
+                        <p data-i18n="imp_cancella_desc">Elimina definitivamente tutti i viaggi e i dati salvati</p>
+                    </div>
+                    <button class="btn-impostazioni-danger" onclick="cancellaTuttiDati()" data-i18n="btn_cancella_tutto">🗑️ Cancella tutto</button>
+                </div>
+            </div>
+
         </div>
-
-        <!-- ASPETTO -->
-        <div class="impostazioni-gruppo">
-            <h3 class="impostazioni-titolo">🎨 Aspetto</h3>
-
-            <div class="impostazioni-riga">
-                <div>
-                    <strong>Tema scuro</strong>
-                    <p>Passa alla modalità dark</p>
-                </div>
-                <label class="toggle-switch">
-                    <input type="checkbox" id="toggle-dark" onchange="toggleDarkMode()">
-                    <span class="toggle-slider"></span>
-                </label>
-            </div>
-        </div>
-
-        <!-- LINGUA -->
-        <div class="impostazioni-gruppo">
-            <h3 class="impostazioni-titolo">🌍 Lingua</h3>
-
-            <div class="impostazioni-riga">
-                <div>
-                    <strong>Lingua dell'app</strong>
-                    <p>Scegli la lingua dell'interfaccia</p>
-                </div>
-                <select id="select-lingua" onchange="cambiaLingua(this.value)"
-                    style="width:auto; min-width:140px;">
-                    <option value="it">🇮🇹 Italiano</option>
-                    <option value="en">🇬🇧 English</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- CANCELLA DATI -->
-        <div class="impostazioni-gruppo impostazioni-gruppo-danger">
-            <h3 class="impostazioni-titolo">⚠️ Zona pericolosa</h3>
-
-            <div class="impostazioni-riga">
-                <div>
-                    <strong>Cancella tutti i dati</strong>
-                    <p>Elimina definitivamente tutti i viaggi e i dati salvati</p>
-                </div>
-                <button class="btn-impostazioni-danger" onclick="cancellaTuttiDati()">
-                    🗑️ Cancella tutto
-                </button>
-            </div>
-        </div>
-
     </div>
-</div>
-<!-- MODALE VISUALIZZATORE ALLEGATI -->
-<div id="modale-allegato" style="display:none;"
-    class="modale-overlay" onclick="if(event.target===this) chiudiModale()">
-    <div class="modale-box">
-        <div class="modale-header">
-            <span id="modale-allegato-titolo"></span>
-            <div style="display:flex; gap:8px;">
-                <button class="btn-modale-scarica" onclick="scaricaAllegato()">⬇️ Scarica</button>
-                <button class="btn-modale-chiudi" onclick="chiudiModale()">✕</button>
+
+    <!-- MODALI -->
+    <div id="modale-allegato" style="display:none;" class="modale-overlay" onclick="if(event.target===this) chiudiModale()">
+        <div class="modale-box">
+            <div class="modale-header">
+                <span id="modale-allegato-titolo"></span>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn-modale-scarica" onclick="scaricaAllegato()" data-i18n="btn_scarica">⬇️ Scarica</button>
+                    <button class="btn-modale-chiudi" onclick="chiudiModale()">✕</button>
+                </div>
             </div>
+            <div id="modale-allegato-corpo"></div>
+            <input type="hidden" id="modale-allegato-dati">
+            <input type="hidden" id="modale-allegato-nome">
         </div>
-        <div id="modale-allegato-corpo"></div>
-        <!-- Campi nascosti per passare i dati -->
-        <input type="hidden" id="modale-allegato-dati">
-        <input type="hidden" id="modale-allegato-nome">
     </div>
-</div>
-<!-- MODALE ELIMINAZIONE VIAGGIO -->
-<div id="modale-elimina-viaggio" style="display:none;"
-    class="modale-overlay">
-    <div class="modale-box" style="max-width:420px;">
-        <div class="modale-header">
-            <span>🗑️ Elimina viaggio</span>
-        </div>
-        <div style="padding:20px;">
-            <p id="modale-elimina-messaggio" style="margin:0 0 16px 0; color:#333; line-height:1.6;"></p>
-            <div id="modale-elimina-bottoni" style="display:flex; flex-direction:column; gap:10px;">
-                <button class="btn-modale-elimina-tutto" onclick="confermaEliminaViaggio('tutto')">
-                    🗑️ Elimina viaggio e tutti i dati collegati
-                </button>
-                <button class="btn-modale-elimina-solo" onclick="confermaEliminaViaggio('solo')">
-                    ✂️ Elimina solo il viaggio, mantieni i dati
-                </button>
-                <button class="btn-modale-annulla" onclick="chiudiModaleEliminaViaggio()">
-                    ↩️ Annulla
-                </button>
+
+    <div id="modale-elimina-viaggio" style="display:none;" class="modale-overlay">
+        <div class="modale-box" style="max-width:420px;">
+            <div class="modale-header">
+                <span data-i18n="modale_elimina_titolo">🗑️ Elimina viaggio</span>
+            </div>
+            <div style="padding:20px;">
+                <p id="modale-elimina-messaggio" style="margin:0 0 16px 0; color:#333; line-height:1.6;"></p>
+                <div id="modale-elimina-bottoni" style="display:flex; flex-direction:column; gap:10px;"></div>
             </div>
         </div>
     </div>
-</div>
-<!-- MODALE CANCELLA TUTTI I DATI -->
-<div id="modale-cancella-dati" style="display:none;"
-    class="modale-overlay">
-    <div class="modale-box" style="max-width:420px;">
-        <div class="modale-header">
-            <span>⚠️ Cancella tutti i dati</span>
-        </div>
-        <div style="padding:20px;">
-            <p style="margin:0 0 16px 0; color:#333; line-height:1.6;">
-                Stai per eliminare <strong>tutti i dati</strong> dell'app — viaggi, trasporti, alloggi, interessi e note.<br><br>
-                Questa operazione è <strong>irreversibile</strong>. Assicurati di aver esportato un backup prima di procedere.
-            </p>
-            <div style="display:flex; flex-direction:column; gap:10px;">
-                <button class="btn-modale-elimina-tutto" onclick="confermaCancellaDati()">
-                    🗑️ Sì, cancella tutto
-                </button>
-                <button class="btn-modale-annulla" onclick="chiudiModaleCancellaDati()">
-                    ↩️ Annulla
-                </button>
+
+    <div id="modale-cancella-dati" style="display:none;" class="modale-overlay">
+        <div class="modale-box" style="max-width:420px;">
+            <div class="modale-header">
+                <span data-i18n="modale_cancella_titolo">⚠️ Cancella tutti i dati</span>
+            </div>
+            <div style="padding:20px;">
+                <p data-i18n="modale_cancella_testo" style="margin:0 0 16px 0; color:#333; line-height:1.6;">
+                    Stai per eliminare tutti i dati dell'app. Questa operazione è irreversibile.
+                </p>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                    <button class="btn-modale-elimina-tutto" onclick="confermaCancellaDati()" data-i18n="btn_conferma_cancella">🗑️ Sì, cancella tutto</button>
+                    <button class="btn-modale-annulla" onclick="chiudiModaleCancellaDati()" data-i18n="btn_annulla">↩️ Annulla</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
     <script src="app.js"></script>
     <script>
-        // Registra il Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
                 navigator.serviceWorker.register('./sw.js')
