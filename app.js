@@ -630,6 +630,11 @@ function caricaSchedaTrasporti(viaggioId) {
             <div class="trasporto-card">
                 <div>
                     <h4>${iconaMezzo(item.mezzo)} ${item.da} → ${item.a}</h4>
+                            <p>
+                                <button class="btn-apri-maps" onclick="mostraModaleMaps('${item.da.replace(/'/g, "\\'")}')">🗺️ ${item.da}</button>
+                                →
+                                <button class="btn-apri-maps" onclick="mostraModaleMaps('${item.a.replace(/'/g, "\\'")}')">🗺️ ${item.a}</button>
+                            </p>
                     <p>🕐 ${tr('riepilogo_partenza')}: ${formattaData(item.dataPartenza)}</p>
                     <p>🕐 ${tr('riepilogo_ritorno')}: ${formattaData(item.dataArrivo)}</p>
                     ${item.riferimento ? `<p>🔖 ${item.riferimento}</p>` : ''}
@@ -662,7 +667,10 @@ function caricaSchedaAlloggi(viaggioId) {
                     <h4>${iconaTipo(item.tipo)} ${item.nome}</h4>
                     <p>📅 Check-in: ${formattaData(item.checkin)}</p>
                     <p>📅 Check-out: ${formattaData(item.checkout)}</p>
-                    ${item.indirizzo ? `<p>📌 ${item.indirizzo}</p>` : ''}
+                    ${item.indirizzo ? `
+                        <p>📌 ${item.indirizzo}
+                            <button class="btn-apri-maps" onclick="mostraModaleMaps('${item.indirizzo.replace(/'/g, "\\'")}')">🗺️ Apri in Maps</button>
+                        </p>` : ''}
                     ${item.riferimento ? `<p>🔖 ${item.riferimento}</p>` : ''}
                     ${item.note ? `<p>📝 ${item.note}</p>` : ''}
                     ${item.prezzo ? `<p class="prezzo-tag">💶 ${item.prezzo.toFixed(2).replace('.', ',')} €</p>` : ''}
@@ -727,7 +735,10 @@ function caricaSchedaInteressi(viaggioId, cittaFiltro) {
                         ${item.priorita === 'alta' ? '🔴 Alta' : item.priorita === 'media' ? '🟡 Media' : '🟢 Bassa'}
                     </span>
                     <h4>${iconaInteresse(item.tipo)} ${item.nome}</h4>
-                    ${item.indirizzo ? `<p>📌 ${item.indirizzo}</p>` : ''}
+                    ${item.indirizzo ? `
+                        <p>📌 ${item.indirizzo}
+                            <button class="btn-apri-maps" onclick="mostraModaleMaps('${item.indirizzo.replace(/'/g, "\\'")}')">🗺️ Apri in Maps</button>
+                        </p>` : ''}
                     ${item.note ? `<p>📝 ${item.note}</p>` : ''}
                     ${item.prezzo ? `<p class="prezzo-tag">💶 ${item.prezzo.toFixed(2).replace('.', ',')} €</p>` : ''}
                 </div>
@@ -1225,6 +1236,11 @@ function mostraListaTrasporti() {
                         <div>
                             <span class="tag-viaggio">📍 ${item.viaggioNome}</span>
                             <h4>${iconaMezzo(item.mezzo)} ${item.da} → ${item.a}</h4>
+                    <p>
+                        <button class="btn-apri-maps" onclick="mostraModaleMaps('${item.da.replace(/'/g, "\\'")}')">🗺️ ${item.da}</button>
+                        →
+                        <button class="btn-apri-maps" onclick="mostraModaleMaps('${item.a.replace(/'/g, "\\'")}')">🗺️ ${item.a}</button>
+                    </p>
                             <p>🕐 Partenza: ${formattaData(item.dataPartenza)}</p>
                             <p>🕐 Arrivo: ${formattaData(item.dataArrivo)}</p>
                             ${item.riferimento ? `<p>🔖 ${item.riferimento}</p>` : ''}
@@ -1389,7 +1405,10 @@ function mostraListaAlloggi() {
                             <h4>${iconaTipo(item.tipo)} ${item.nome}</h4>
                             <p>📅 Check-in: ${formattaData(item.checkin)}</p>
                             <p>📅 Check-out: ${formattaData(item.checkout)}</p>
-                            ${item.indirizzo ? `<p>📌 ${item.indirizzo}</p>` : ''}
+                            ${item.indirizzo ? `
+                                <p>📌 ${item.indirizzo}
+                                    <button class="btn-apri-maps" onclick="mostraModaleMaps('${item.indirizzo.replace(/'/g, "\\'")}')">🗺️ Apri in Maps</button>
+                                </p>` : ''}
                             ${item.riferimento ? `<p>🔖 ${item.riferimento}</p>` : ''}
                             ${item.note ? `<p>📝 ${item.note}</p>` : ''}
                             ${item.prezzo ? `<p class="prezzo-tag">💶 ${item.prezzo.toFixed(2).replace('.', ',')} €</p>` : ''}
@@ -1553,7 +1572,10 @@ function mostraListaInteressi() {
                                 ${item.priorita === 'alta' ? '🔴 Alta' : item.priorita === 'media' ? '🟡 Media' : '🟢 Bassa'}
                             </span>
                             <h4>${iconaInteresse(item.tipo)} ${item.nome}</h4>
-                            ${item.indirizzo ? `<p>📌 ${item.indirizzo}</p>` : ''}
+                            ${item.indirizzo ? `
+                                <p>📌 ${item.indirizzo}
+                                    <button class="btn-apri-maps" onclick="mostraModaleMaps('${item.indirizzo.replace(/'/g, "\\'")}')">🗺️ Apri in Maps</button>
+                                </p>` : ''}
                             ${item.note ? `<p>📝 ${item.note}</p>` : ''}
                             ${item.prezzo ? `<p class="prezzo-tag">💶 ${item.prezzo.toFixed(2).replace('.', ',')} €</p>` : ''}
                         </div>
@@ -2077,6 +2099,108 @@ function toggleGruppo(id) {
     const staAperto = corpo.classList.contains('aperto');
     corpo.classList.toggle('aperto', !staAperto);
     header.classList.toggle('aperto', !staAperto);
+}
+// ============================================
+// AUTOCOMPLETE INDIRIZZI
+// ============================================
+
+let autocompleteTimer = null;
+let indirizzoMapsCorrente = null;
+
+async function autocompleteIndirizzo(input, listaId) {
+    const testo = input.value.trim();
+    const lista = document.getElementById(listaId);
+
+    // Nascondi se meno di 3 caratteri
+    if (testo.length < 3) {
+        lista.innerHTML = '';
+        lista.classList.remove('visibile');
+        return;
+    }
+
+    // Debounce — aspetta 400ms prima di fare la ricerca
+    // evita troppe richieste mentre si digita velocemente
+    clearTimeout(autocompleteTimer);
+    autocompleteTimer = setTimeout(async function() {
+        try {
+            const url = 'https://nominatim.openstreetmap.org/search?format=json&q=' +
+                encodeURIComponent(testo) + '&limit=5&addressdetails=1';
+            const risposta = await fetch(url, {
+                headers: { 'Accept-Language': 'it' }
+            });
+            const risultati = await risposta.json();
+
+            if (risultati.length === 0) {
+                lista.classList.remove('visibile');
+                return;
+            }
+
+            lista.innerHTML = risultati.map(function(r) {
+                // Divide il nome completo in parte principale e secondaria
+                const parti = r.display_name.split(', ');
+                const principale = parti.slice(0, 2).join(', ');
+                const secondaria = parti.slice(2).join(', ');
+
+                return `
+                    <div class="autocomplete-voce"
+                        onclick="selezionaIndirizzo('${r.display_name.replace(/'/g, "\\'")}', '${input.id}', '${listaId}')">
+                        <div class="voce-principale">${principale}</div>
+                        ${secondaria ? `<div class="voce-secondaria">${secondaria}</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+
+            lista.classList.add('visibile');
+
+        } catch (e) {
+            console.log('Autocomplete fallito:', e);
+            lista.classList.remove('visibile');
+        }
+    }, 400);
+}
+
+function selezionaIndirizzo(indirizzo, inputId, listaId) {
+    document.getElementById(inputId).value = indirizzo;
+    document.getElementById(listaId).classList.remove('visibile');
+    document.getElementById(listaId).innerHTML = '';
+}
+
+// Chiude tutti i menu autocomplete cliccando fuori
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.autocomplete-wrapper')) {
+        document.querySelectorAll('.autocomplete-lista').forEach(function(lista) {
+            lista.classList.remove('visibile');
+        });
+    }
+});
+
+// ============================================
+// APRI IN MAPS
+// ============================================
+
+function mostraModaleMaps(indirizzo) {
+    indirizzoMapsCorrente = indirizzo;
+    document.getElementById('modale-maps-indirizzo').textContent = '📍 ' + indirizzo;
+    document.getElementById('modale-maps').style.display = 'flex';
+}
+
+function chiudiModaleMaps() {
+    document.getElementById('modale-maps').style.display = 'none';
+    indirizzoMapsCorrente = null;
+}
+
+function apriAppleMaps() {
+    if (!indirizzoMapsCorrente) return;
+    const query = encodeURIComponent(indirizzoMapsCorrente);
+    window.open('https://maps.apple.com/?q=' + query, '_blank');
+    chiudiModaleMaps();
+}
+
+function apriGoogleMaps() {
+    if (!indirizzoMapsCorrente) return;
+    const query = encodeURIComponent(indirizzoMapsCorrente);
+    window.open('https://www.google.com/maps/search/?api=1&query=' + query, '_blank');
+    chiudiModaleMaps();
 }
 
 // ============================================

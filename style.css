@@ -1647,3 +1647,132 @@ header h1:hover {
     color: #666;
     margin: 0 0 12px 0;
 }
+/* ========================
+   AUTOCOMPLETE INDIRIZZI
+======================== */
+.autocomplete-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.autocomplete-lista {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #2c7be5;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 500;
+    display: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.autocomplete-lista.visibile {
+    display: block;
+}
+
+.autocomplete-voce {
+    padding: 10px 12px;
+    font-size: 13px;
+    color: #333;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    line-height: 1.4;
+}
+
+.autocomplete-voce:last-child {
+    border-bottom: none;
+}
+
+.autocomplete-voce:hover {
+    background-color: #f0f6ff;
+    color: #2c7be5;
+}
+
+.autocomplete-voce .voce-principale {
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.autocomplete-voce .voce-secondaria {
+    font-size: 11px;
+    color: #999;
+    margin-top: 2px;
+}
+
+/* ========================
+   BOTTONE APRI IN MAPS
+======================== */
+.btn-apri-maps {
+    display: inline-block;
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: none;
+    border-radius: 8px;
+    padding: 3px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-top: 4px;
+    text-decoration: none;
+}
+
+.btn-apri-maps:hover {
+    background-color: #2e7d32;
+    color: white;
+}
+
+.btn-maps-apple {
+    width: 100%;
+    padding: 12px;
+    background-color: #f5f5f7;
+    color: #1d1d1f;
+    border: 1px solid #d2d2d7;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    min-height: 44px;
+}
+
+.btn-maps-apple:hover {
+    background-color: #e8e8ed;
+}
+
+.btn-maps-google {
+    width: 100%;
+    padding: 12px;
+    background-color: #e8f0fe;
+    color: #1a73e8;
+    border: 1px solid #c5d8fd;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    min-height: 44px;
+}
+
+.btn-maps-google:hover {
+    background-color: #1a73e8;
+    color: white;
+}
+
+/* Dark mode autocomplete */
+body.dark-mode .autocomplete-lista {
+    background-color: #16213e;
+    border-color: #2c7be5;
+}
+
+body.dark-mode .autocomplete-voce {
+    color: #e0e0e0;
+    border-color: #2a2a4a;
+}
+
+body.dark-mode .autocomplete-voce:hover {
+    background-color: #0f3460;
+}
+
+body.dark-mode .autocomplete-voce .voce-secondaria {
+    color: #666;
+}

@@ -155,9 +155,19 @@
                             <option value="altro" data-i18n="mezzo_altro">🔹 Altro</option>
                         </select>
                         <label data-i18n="label_partenza_da">Partenza da</label>
-                        <input type="text" id="trasporto-da" data-i18n-placeholder="placeholder_partenza_da" placeholder="Es. Milano Centrale...">
+                        <div class="autocomplete-wrapper">
+                            <input type="text" id="trasporto-da" data-i18n-placeholder="placeholder_partenza_da"
+                                placeholder="Es. Milano Centrale..." autocomplete="off"
+                                oninput="autocompleteIndirizzo(this, 'suggerimenti-trasporto-da')">
+                            <div class="autocomplete-lista" id="suggerimenti-trasporto-da"></div>
+                        </div>
                         <label data-i18n="label_arrivo_a">Arrivo a</label>
-                        <input type="text" id="trasporto-a" data-i18n-placeholder="placeholder_arrivo_a" placeholder="Es. Parigi CDG...">
+                        <div class="autocomplete-wrapper">
+                            <input type="text" id="trasporto-a" data-i18n-placeholder="placeholder_arrivo_a"
+                                placeholder="Es. Parigi CDG..." autocomplete="off"
+                                oninput="autocompleteIndirizzo(this, 'suggerimenti-trasporto-a')">
+                            <div class="autocomplete-lista" id="suggerimenti-trasporto-a"></div>
+                        </div>
                         <label data-i18n="label_data_ora_partenza">Data e ora di partenza</label>
                         <input type="datetime-local" id="trasporto-data-partenza">
                         <label data-i18n="label_data_ora_arrivo">Data e ora di arrivo</label>
@@ -210,7 +220,12 @@
                         <label data-i18n="label_checkout">Check-out</label>
                         <input type="datetime-local" id="alloggio-checkout">
                         <label data-i18n="label_indirizzo">Indirizzo</label>
-                        <input type="text" id="alloggio-indirizzo" data-i18n-placeholder="placeholder_indirizzo" placeholder="Es. Via Roma 12...">
+                        <div class="autocomplete-wrapper">
+                            <input type="text" id="alloggio-indirizzo" data-i18n-placeholder="placeholder_indirizzo"
+                                placeholder="Es. Via Roma 12..." autocomplete="off"
+                                oninput="autocompleteIndirizzo(this, 'suggerimenti-alloggio-indirizzo')">
+                            <div class="autocomplete-lista" id="suggerimenti-alloggio-indirizzo"></div>
+                        </div>
                         <label data-i18n="label_num_prenotazione">Numero prenotazione</label>
                         <input type="text" id="alloggio-riferimento" data-i18n-placeholder="placeholder_num_prenotazione" placeholder="Es. BK123456...">
                         <label data-i18n="label_note">Note</label>
@@ -266,7 +281,12 @@
                             list="citta-suggerimenti" autocomplete="off">
                         <datalist id="citta-suggerimenti"></datalist>
                         <label data-i18n="label_indirizzo_zona">Indirizzo o zona</label>
-                        <input type="text" id="interesse-indirizzo" data-i18n-placeholder="placeholder_indirizzo_zona" placeholder="Es. Champ de Mars...">
+                        <div class="autocomplete-wrapper">
+                            <input type="text" id="interesse-indirizzo" data-i18n-placeholder="placeholder_indirizzo_zona"
+                                placeholder="Es. Champ de Mars..." autocomplete="off"
+                                oninput="autocompleteIndirizzo(this, 'suggerimenti-interesse-indirizzo')">
+                            <div class="autocomplete-lista" id="suggerimenti-interesse-indirizzo"></div>
+                        </div>
                         <label data-i18n="label_note">Note</label>
                         <input type="text" id="interesse-note" data-i18n-placeholder="placeholder_note_interesse" placeholder="Es. Prenotare in anticipo...">
                         <label data-i18n="label_prezzo_ingresso">Prezzo biglietto/ingresso (€)</label>
@@ -441,6 +461,27 @@
                 <div style="display:flex; flex-direction:column; gap:10px;">
                     <button class="btn-modale-elimina-tutto" onclick="confermaCancellaDati()" data-i18n="btn_conferma_cancella">🗑️ Sì, cancella tutto</button>
                     <button class="btn-modale-annulla" onclick="chiudiModaleCancellaDati()" data-i18n="btn_annulla">↩️ Annulla</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALE APRI IN MAPS -->
+    <div id="modale-maps" style="display:none;" class="modale-overlay" onclick="if(event.target===this) chiudiModaleMaps()">
+        <div class="modale-box" style="max-width:340px;">
+            <div class="modale-header">
+                <span>🗺️ Apri in Maps</span>
+                <button class="btn-modale-chiudi" onclick="chiudiModaleMaps()">✕</button>
+            </div>
+            <div style="padding:20px;">
+                <p id="modale-maps-indirizzo" style="font-size:14px; color:#555; margin:0 0 16px 0;"></p>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                    <button class="btn-maps-apple" onclick="apriAppleMaps()">
+                        🍎 Apri in Apple Maps
+                    </button>
+                    <button class="btn-maps-google" onclick="apriGoogleMaps()">
+                        🌐 Apri in Google Maps
+                    </button>
                 </div>
             </div>
         </div>
